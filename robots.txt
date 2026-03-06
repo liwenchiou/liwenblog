@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://liwenchiou.github.io/liwenblog/sitemap.xml

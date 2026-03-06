@@ -4,18 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liwen | Minimal Portfolio</title>
-    <!-- React 18 & ReactDOM CDN -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <!-- Babel for JSX compilation -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Tailwind CSS Play CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- High-end Fonts: Playfair Display (Serif EN), Noto Serif TC (Serif ZH), Inter (Sans EN), Noto Sans TC (Sans ZH) -->
+    <title>Liwen Chiou | Digital Architect & Full-Stack Engineer</title>
+    <meta name="description" content="[placeholder-site-description] - 數位建築師：致力於打造優雅、可擴充且具备 AI 靈魂的 Web 解決方案。">
+    <meta property="og:title" content="Liwen Chiou | Digital Architect Portfolio">
+    <meta property="og:description" content="探索 Liwen Chiou 的技術實踐、作品集與生活碎片。">
+    <meta property="og:image" content="[placeholder-og-image]">
+    <meta property="og:url" content="[placeholder-site-url]">
+    <link rel="icon" type="image/png" href="[placeholder-favicon]">
+
+    <!-- Asset Preloading for Critical UI -->
+    <link rel="preload" as="image" href="assets/IMG_5334.JPG">
+
+    <!-- Fonts: Standardized Pro Max Stack -->
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+TC:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">
+
+    <!-- Core Engines: React, Babel, Tailwind (CDN-based as per Constitution) -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
         tailwind.config = {
@@ -81,14 +90,49 @@
                 @apply text-accent bg-hover-bg;
             }
             .reveal {
-                @apply opacity-0 translate-y-4 animate-[reveal_0.8s_cubic-bezier(0.4,0,0.2,1)_forwards];
+                @apply opacity-0 translate-y-4;
+                animation: revealIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             }
-            @keyframes reveal {
+            @keyframes revealIn {
                 to { opacity: 1; transform: translateY(0); }
+            }
+            .reveal.visible {
+                @apply opacity-100 translate-y-0;
             }
             .tag-btn {
                 @apply transition-all duration-500 ease-liquid active:scale-95;
             }
+            /* Custom Typewriter Cursor */
+            .cursor-blink {
+                @apply inline-block w-[2px] h-[1em] bg-copper align-middle ml-1;
+                animation: blink 1s step-end infinite;
+            }
+            @keyframes blink {
+                from, to { opacity: 1; }
+                50% { opacity: 0; }
+            }
+            /* Premium Loading Bar */
+            .loading-bar {
+                @apply fixed top-0 left-0 h-[2px] bg-copper z-[100] transition-all duration-500 ease-out;
+            }
+            /* Glass Card Glow */
+            .glass-card-glow {
+                @apply relative overflow-hidden;
+            }
+            .glass-card-glow::after {
+                content: '';
+                @apply absolute inset-0 opacity-0 transition-opacity duration-700 pointer-events-none;
+                background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(210, 123, 94, 0.1) 0%, transparent 60%);
+            }
+            .glass-card-glow:hover::after {
+                @apply opacity-100;
+            }
+            /* Roadmap Status Badge */
+            .status-badge {
+                @apply px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider;
+            }
+            .status-planned { @apply bg-divider text-subtle/60; }
+            .status-writing { @apply bg-copper/10 text-copper; }
         }
     </style>
 </head>
@@ -98,6 +142,67 @@
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
+
+        // --- Utility: Typewriter Component ---
+        const TypewriterText = ({ text }) => {
+            const [display, setDisplay] = useState('');
+            useEffect(() => {
+                let current = 0;
+                setDisplay('');
+                const timer = setInterval(() => {
+                    if (current < text.length) {
+                        setDisplay(text.slice(0, current + 1));
+                        current++;
+                    } else {
+                        clearInterval(timer);
+                    }
+                }, 80);
+                return () => clearInterval(timer);
+            }, [text]);
+            return (
+                <span>
+                    {display}
+                    <span className="cursor-blink"></span>
+                </span>
+            );
+        };
+
+        // --- Utility: Copy Button Component ---
+        const CopyButton = ({ text, label }) => {
+            const [copied, setCopied] = useState(false);
+            const handleCopy = () => {
+                navigator.clipboard.writeText(text);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            };
+            return (
+                <button
+                    onClick={handleCopy}
+                    className="px-6 py-3 border border-accent/20 text-accent hover:border-accent rounded-full font-bold text-[10px] uppercase tracking-widest relative transition-all"
+                >
+                    {copied ? '✓ Copied!' : label}
+                </button>
+            );
+        };
+
+        // --- Utility: Scroll Reveal Wrapper ---
+        const ScrollReveal = ({ children }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                const observer = new IntersectionObserver(
+                    ([entry]) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    },
+                    { threshold: 0.05 }
+                );
+                if (ref.current) observer.observe(ref.current);
+                return () => observer.disconnect();
+            }, []);
+            return <div ref={ref} className="reveal">{children}</div>;
+        };
+
 
         // --- Sidebar Component ---
         const Sidebar = ({ activeItem, setActiveItem, isOpen, setIsOpen }) => {
@@ -178,16 +283,16 @@
 
                     {/* Hero Section: Pro Max Typography */}
                     <div className="mb-24">
-                        <span className="text-[10px] md:text-xs font-mono font-bold uppercase tracking-[0.5em] text-copper mb-6 block animate-pulse">
-                            Digital Architect 2026
+                        <span className="text-[10px] md:text-xs font-mono font-bold uppercase tracking-[0.5em] text-copper mb-6 block">
+                            / Digital Architect 2026
                         </span>
                         <h1 className="text-5xl md:text-8xl font-serif font-bold italic leading-[1.1] mb-6">
                             Liwen Chiou
                         </h1>
                         <div className="flex flex-col md:flex-row md:items-center gap-6">
-                            <div className="px-5 py-2 bg-accent text-white rounded-full text-[11px] font-mono font-bold flex items-center gap-3 w-fit">
+                            <div className="px-5 py-2 bg-accent text-white rounded-full text-[11px] font-mono font-bold flex items-center gap-3 w-fit min-w-[200px]">
                                 <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-ping"></span>
-                                {roles[roleIndex]}
+                                <TypewriterText text={roles[roleIndex]} />
                             </div>
                             <p className="text-xl md:text-2xl font-serif italic text-subtle">
                                 Building elegant, scalable solutions for the modern web.
@@ -221,9 +326,6 @@
                                     <div className="text-2xl mb-8 opacity-60 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-2 duration-500 origin-left inline-block">{svc.icon}</div>
                                     <h4 className="text-2xl font-bold mb-4 font-serif italic text-slate-ink">{svc.title}</h4>
                                     <p className="text-subtle font-normal leading-relaxed text-sm md:text-lg">{svc.desc}</p>
-                                    <div className="mt-8 text-[10px] font-mono font-bold uppercase tracking-widest text-copper opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
-                                        Explore Capability ->
-                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -267,16 +369,24 @@
                     }
                 };
 
-                // Update on filter change or window resize
-                updateBg();
+                // Use RequestAnimationFrame for ultra-smooth layout sync
+                let rafId;
+                const sync = () => {
+                    updateBg();
+                    rafId = requestAnimationFrame(sync);
+                };
 
-                // Extra delay to catch layout after "reveal" animation starts
-                const timer = setTimeout(updateBg, 100);
+                const timer = setTimeout(() => {
+                    sync();
+                    // Stop constant sync after initial transition
+                    setTimeout(() => cancelAnimationFrame(rafId), 1000);
+                }, 50);
+
                 window.addEventListener('resize', updateBg);
-
                 return () => {
                     window.removeEventListener('resize', updateBg);
                     clearTimeout(timer);
+                    cancelAnimationFrame(rafId);
                 };
             }, [filter]);
 
@@ -324,9 +434,10 @@
                 {
                     title: "Git 練功房",
                     date: "2025-12-14",
-                    desc: "透過 GitHub API 深度分析 Commit 歷史，自動計算開發練習的投入時長與學習進度，是工程師追蹤技術進化軌跡的最佳工具。",
+                    desc: "透過 GitHub API 深度分析 Commit 歷史，自動計算開發練習的投入時長與學習進度。",
                     tags: ["React", "GitHub API"],
                     link: "https://liwenchiou.github.io/git-practice-tracker/",
+                    code: "https://github.com/liwenchiou/git-practice-tracker",
                     image: "./assets/git_tracker.png"
                 },
             ];
@@ -355,17 +466,25 @@
                                 className="absolute bg-accent rounded-full transition-all duration-500 ease-liquid shadow-xl shadow-accent/20 -z-10"
                                 style={bgStyle}
                             />
-                            {allTags.map(tag => (
-                                <button
-                                    key={tag}
-                                    ref={el => buttonRefs.current[tag] = el}
-                                    onClick={() => setFilter(tag)}
-                                    className={`px-5 py-2 rounded-full text-[10px] md:text-[11px] uppercase tracking-widest transition-colors duration-500 font-bold outline-none ${filter === tag ? 'text-white' : 'text-subtle hover:text-accent'
-                                        }`}
-                                >
-                                    {tag}
-                                </button>
-                            ))}
+                            {allTags.map(tag => {
+                                const count = tag === 'All'
+                                    ? sortedProjects.length
+                                    : sortedProjects.filter(p => p.tags.includes(tag)).length;
+                                return (
+                                    <button
+                                        key={tag}
+                                        ref={el => buttonRefs.current[tag] = el}
+                                        onClick={() => setFilter(tag)}
+                                        className={`px-5 py-2 rounded-full text-[10px] md:text-[11px] uppercase tracking-widest transition-colors duration-500 font-bold outline-none flex items-center gap-2 ${filter === tag ? 'text-white' : 'text-subtle hover:text-accent'
+                                            }`}
+                                    >
+                                        {tag}
+                                        <span className={`text-[8px] opacity-40 ${filter === tag ? 'text-white' : 'text-copper'}`}>
+                                            ({count})
+                                        </span>
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
 
@@ -374,16 +493,32 @@
                             <div
                                 key={p.title}
                                 onClick={() => p.link !== '#' && window.open(p.link, '_blank')}
-                                className="group border-b border-divider pb-10 md:pb-12 cursor-pointer animate-reveal"
+                                onMouseMove={(e) => {
+                                    const rect = e.currentTarget.getBoundingClientRect();
+                                    e.currentTarget.style.setProperty('--x', `${e.clientX - rect.left}px`);
+                                    e.currentTarget.style.setProperty('--y', `${e.clientY - rect.top}px`);
+                                }}
+                                className="group border-b border-divider pb-10 md:pb-12 cursor-pointer animate-reveal glass-card-glow"
                             >
                                 <div className="aspect-video bg-hover-bg rounded-2xl mb-6 overflow-hidden border border-divider">
-                                    <img src={p.image} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" alt={p.title} />
+                                    <img
+                                        src={p.image}
+                                        loading="lazy"
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
+                                        alt={p.title}
+                                    />
                                 </div>
-                                <div className="flex justify-between items-start mb-2 group-hover:translate-x-2 transition-transform duration-500">
-                                    <h3 className="text-xl md:text-2xl font-serif font-bold">{p.title}</h3>
-                                    <span className="text-[10px] font-bold text-subtle opacity-40 uppercase tracking-widest pt-2">{p.date.replace(/-/g, '.')}</span>
+                                <div className="group-hover:translate-x-2 transition-transform duration-500 flex flex-col gap-2 mb-4">
+                                    <div className="flex justify-between items-start">
+                                        <h3 className="text-xl md:text-2xl font-serif font-bold">{p.title}</h3>
+                                        <span className="text-[10px] font-bold text-subtle opacity-40 uppercase tracking-widest pt-2">{p.date.replace(/-/g, '.')}</span>
+                                    </div>
+                                    <p className="text-subtle text-sm font-normal leading-relaxed">{p.desc}</p>
+                                    <div className="flex gap-4 mt-2">
+                                        <a href={p.link} target="_blank" className="text-[9px] font-bold uppercase tracking-widest text-copper hover:underline">/ Live Demo</a>
+                                        {p.code && <a href={p.code} target="_blank" className="text-[9px] font-bold uppercase tracking-widest text-slate-ink/40 hover:text-accent hover:underline">/ View Code</a>}
+                                    </div>
                                 </div>
-                                <p className="text-subtle text-sm font-normal mb-4 leading-relaxed">{p.desc}</p>
                                 <div className="flex flex-wrap gap-2">
                                     {p.tags.map(t => (
                                         <span
@@ -407,26 +542,53 @@
         };
 
         const TechArticles = () => {
+            const roadmap = [
+                { title: "AI Agent 實戰筆記：從邏輯流到自治執行", status: "writing", date: "Coming Soon" },
+                { title: "零構建 (Zero Build) 架構的生存法則", status: "planned", date: "Planned" },
+                { title: "數位建築師：極簡主義下的 Web 解決方案", status: "planned", date: "Planned" },
+                { title: "PHP 的文藝復興：現代 Web 的背後支柱", status: "planned", date: "Planned" }
+            ];
             return (
                 <div className="py-12 md:py-20 reveal max-w-4xl">
                     <h2 className="text-4xl md:text-6xl font-serif font-bold italic mb-12 md:mb-16">Technical Insight</h2>
-                    <div className="py-24 flex flex-col items-center justify-center border border-dashed border-divider rounded-3xl opacity-60 bg-hover-bg/30">
-                        <div className="text-5xl mb-6">✍️</div>
-                        <h3 className="text-xl md:text-2xl font-serif font-bold italic mb-3">內容建置中</h3>
-                        <p className="text-sm md:text-base font-light italic text-subtle">目前正在整理技術筆記與實戰心得，這裡很快就會有乾貨分享。</p>
+                    <div className="space-y-6">
+                        {roadmap.map((item, idx) => (
+                            <div key={idx} className="group p-8 border border-divider rounded-2xl bg-white/50 hover:bg-white hover:shadow-glass transition-all duration-500 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                <div className="flex flex-col gap-2">
+                                    <div className="flex items-center gap-4">
+                                        <span className={`status-badge ${item.status === 'writing' ? 'status-writing' : 'status-planned'}`}>
+                                            {item.status}
+                                        </span>
+                                        <span className="text-[10px] font-mono text-subtle/50 uppercase tracking-widest">{item.date}</span>
+                                    </div>
+                                    <h3 className="text-xl md:text-2xl font-serif font-bold italic group-hover:text-copper transition-colors">{item.title}</h3>
+                                </div>
+                                <div className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-accent/20 group-hover:text-copper/60 transition-colors">
+                                    / Insight Queue
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             );
         }
 
         const LifeSharing = () => {
+            const moments = [
+                { title: "靜聽：代碼之外的感官紀錄", tag: "Photography", date: "Drafting" },
+                { title: "極簡生活：如何清理數位環境與心靈負擔", tag: "Mindset", date: "Planned" }
+            ];
             return (
                 <div className="py-12 md:py-20 reveal max-w-3xl">
                     <h2 className="text-4xl md:text-6xl font-serif font-bold italic mb-12 md:mb-16">Life & Fragments</h2>
-                    <div className="py-24 flex flex-col items-center justify-center border border-l-4 border-l-accent border-divider bg-hover-bg/30 rounded-r-3xl opacity-70 pl-8">
-                        <div className="text-5xl mb-6">⏳</div>
-                        <h3 className="text-xl md:text-2xl font-serif font-bold italic mb-3">生活軌跡建置中</h3>
-                        <p className="text-sm md:text-base font-light italic text-subtle">正在紀錄程式碼以外的碎片段落與驚喜，敬請期待。</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {moments.map((item, idx) => (
+                            <div key={idx} className="p-8 border-l-4 border-copper/20 bg-hover-bg/30 rounded-r-3xl transition-all hover:bg-hover-bg/50">
+                                <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-copper/60 mb-4 block"># {item.tag}</span>
+                                <h3 className="text-xl font-serif font-bold mb-4">{item.title}</h3>
+                                <p className="text-[10px] font-mono font-bold opacity-30 uppercase tracking-[0.4em]">{item.date}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             );
@@ -483,11 +645,51 @@
 
         // --- Main App ---
         const App = () => {
-            const [activeItem, setActiveItem] = useState('intro');
+            const [activeItem, setActiveItem] = useState(() => {
+                const hash = window.location.hash.replace('#', '');
+                return ['intro', 'portfolio', 'tech', 'life', 'services'].includes(hash) ? hash : 'intro';
+            });
             const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+            const [loadProgress, setLoadProgress] = useState(0);
+            const mainRef = useRef(null);
+
+            useEffect(() => {
+                window.location.hash = activeItem;
+                // Suggestion 4: Smooth scroll to top on section change
+                if (mainRef.current) {
+                    mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+
+                // Suggestion 3: Top Loading Bar Simulation
+                setLoadProgress(30);
+                const timer = setTimeout(() => setLoadProgress(100), 400);
+                const cleanupTimer = setTimeout(() => setLoadProgress(0), 1000);
+                return () => {
+                    clearTimeout(timer);
+                    clearTimeout(cleanupTimer);
+                };
+            }, [activeItem]);
+
+
+            useEffect(() => {
+                const handleHashChange = () => {
+                    const hash = window.location.hash.replace('#', '');
+                    if (['intro', 'portfolio', 'tech', 'life', 'services'].includes(hash)) {
+                        setActiveItem(hash);
+                    }
+                };
+                window.addEventListener('hashchange', handleHashChange);
+                return () => window.removeEventListener('hashchange', handleHashChange);
+            }, []);
+
 
             return (
                 <div className="flex flex-col md:flex-row h-screen w-full relative">
+                    {/* Suggestion 3: Loading Bar */}
+                    <div
+                        className="loading-bar shadow-glow"
+                        style={{ width: `${loadProgress}%`, opacity: loadProgress > 0 ? 1 : 0 }}
+                    />
 
                     {/* Mobile Top Bar */}
                     <div className="md:hidden flex items-center justify-between p-6 bg-white border-b border-divider z-40 sticky top-0">
@@ -499,16 +701,20 @@
                         activeItem={activeItem}
                         setActiveItem={setActiveItem}
                         isOpen={isSidebarOpen}
-                        setIsOpen={isSidebarOpen} // Pass the setter
                         setIsOpen={setIsSidebarOpen}
                     />
 
-                    <main className="flex-1 overflow-y-auto px-8 md:px-24 bg-soft-bg scroll-smooth">
-                        {activeItem === 'intro' && <Introduction />}
-                        {activeItem === 'portfolio' && <Portfolio />}
-                        {activeItem === 'tech' && <TechArticles />}
-                        {activeItem === 'life' && <LifeSharing />}
-                        {activeItem === 'services' && <Services />}
+                    <main
+                        ref={mainRef}
+                        className="flex-1 overflow-y-auto px-8 md:px-24 bg-soft-bg scroll-smooth selection:bg-copper/10 selection:text-copper"
+                    >
+                        <div className="reveal visible">
+                            {activeItem === 'intro' && <Introduction />}
+                            {activeItem === 'portfolio' && <Portfolio />}
+                            {activeItem === 'tech' && <TechArticles />}
+                            {activeItem === 'life' && <LifeSharing />}
+                            {activeItem === 'services' && <Services />}
+                        </div>
 
                         {/* Static Footer inside scroll area */}
                         <div className="py-12 md:py-20 opacity-30 text-[9px] md:text-[10px] font-bold tracking-[0.3em] uppercase border-t border-divider text-center md:text-left">

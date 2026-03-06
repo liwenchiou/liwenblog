@@ -397,7 +397,7 @@
                             Exp: 8+ Years in Dev
                         </div>
                     </div>
-                </div>
+                </section>
             );
         };
 
@@ -536,7 +536,7 @@
                                     </button>
                                 );
                             })}
-                        </div>
+                        </nav>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -585,12 +585,10 @@
                         ))}
                     </div>
 
-                    {
-                filteredProjects.length === 0 && (
-                    <div className="py-20 text-center italic text-subtle opacity-50">載入中或是暫無相符的專案...</div>
-                )
-            }
-                </div >
+                    {filteredProjects.length === 0 && (
+                        <div className="py-20 text-center italic text-subtle opacity-50">載入中或是暫無相符的專案...</div>
+                    )}
+                </section>
             );
         };
 
@@ -750,7 +748,7 @@
                     </div>
                 </section>
             );
-        }
+        };
 
         const LifeSharing = () => {
             const [moments, setMoments] = useState([]);
@@ -987,8 +985,8 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
-    {/* Static SEO Content for Crawlers (Invisible to Users) */}
-    <nav className="sr-only">
+    <!-- Static SEO Content for Crawlers (Invisible to Users) -->
+    <nav class="sr-only" style="display: none;">
         <a href="#intro">Liwen Chiou Introduction - Digital Architect</a>
         <a href="#portfolio">Selected Portfolio - Full-Stack Projects</a>
         <a href="#tech">Technical Insights - React, AI, PHP Articles</a>

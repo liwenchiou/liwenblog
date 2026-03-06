@@ -5,12 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liwen Chiou | Digital Architect & Full-Stack Engineer</title>
-    <meta name="description" content="[placeholder-site-description] - 數位建築師：致力於打造優雅、可擴充且具备 AI 靈魂的 Web 解決方案。">
-    <meta property="og:title" content="Liwen Chiou | Digital Architect Portfolio">
-    <meta property="og:description" content="探索 Liwen Chiou 的技術實踐、作品集與生活碎片。">
-    <meta property="og:image" content="[placeholder-og-image]">
-    <meta property="og:url" content="[placeholder-site-url]">
-    <link rel="icon" type="image/png" href="[placeholder-favicon]">
+    <meta name="description"
+        content="Liwen Chiou 的個人品牌網站。數位建築師：致力於打造優雅、可擴充且具備 AI 靈魂的 Web 解決方案。專注於 React, PHP, 與 AI Agent 實戰。">
+    <meta name="keywords"
+        content="Liwen Chiou, 邱力文, Digital Architect, Full-Stack Engineer, React, PHP, AI Agent, Web Design, Portfolio">
+    <meta name="author" content="Liwen Chiou">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://liwenchiou.github.io/liwenblog/">
+    <meta property="og:title" content="Liwen Chiou | Digital Architect & Full-Stack Engineer">
+    <meta property="og:description" content="探索數位建築師的技術實踐：從優雅的前端互動到穩固的後端邏輯，編織 AI 驅動的數位解決方案。">
+    <meta property="og:image" content="https://liwenchiou.github.io/liwenblog/assets/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://liwenchiou.github.io/liwenblog/">
+    <meta property="twitter:title" content="Liwen Chiou | Digital Architect & Full-Stack Engineer">
+    <meta property="twitter:description" content="探索數位建築師的技術實踐：從優雅的前端互動到穩固的後端邏輯，編織 AI 驅動的數位解決方案。">
+    <meta property="twitter:image" content="https://liwenchiou.github.io/liwenblog/assets/og-image.png">
+
+    <link rel="icon" type="image/png" href="assets/IMG_5334.JPG">
+    <link rel="canonical" href="https://liwenchiou.github.io/liwenblog/">
+
+    <!-- JSON-LD Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Liwen Chiou",
+      "jobTitle": "Full-Stack Engineer & Digital Architect",
+      "url": "https://liwenchiou.github.io/liwenblog/",
+      "sameAs": [
+        "https://github.com/liwenchiou"
+      ],
+      "description": "致力於打造優雅、可擴充且具備 AI 靈魂的 Web 解決方案的數位建築師。"
+    }
+    </script>
 
     <!-- Asset Preloading for Critical UI -->
     <link rel="preload" as="image" href="assets/IMG_5334.JPG">
@@ -26,6 +57,13 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Markdown & Highlighting Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -36,11 +74,11 @@
                         mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
-                        'soft-bg': '#FDFDFD',
+                        'soft-bg': '#F9F9F8',
                         'accent': '#1A1A1A',
-                        'subtle': '#717171',
-                        'divider': '#F1F1F1',
-                        'hover-bg': '#F8F8F8',
+                        'subtle': '#5A5A5A',
+                        'divider': '#EDEDEB',
+                        'hover-bg': '#F2F2F1',
                         'copper': '#D27B5E',
                         'slate-ink': '#2D3436',
                         'glass-white': 'rgba(255, 255, 255, 0.45)',
@@ -133,6 +171,19 @@
             }
             .status-planned { @apply bg-divider text-subtle/60; }
             .status-writing { @apply bg-copper/10 text-copper; }
+            
+            /* Markdown Styling */
+            .markdown-content {
+                @apply font-sans;
+            }
+            .markdown-content h1 { @apply text-4xl font-serif mb-8 border-b border-divider pb-4; }
+            .markdown-content h2 { @apply text-2xl font-serif mt-12 mb-6; }
+            .markdown-content p { @apply mb-6 text-accent leading-loose; }
+            .markdown-content ul { @apply list-disc list-inside mb-6 space-y-2; }
+            .markdown-content blockquote { @apply border-l-4 border-copper/30 pl-6 italic my-8; }
+            .markdown-content pre { @apply my-8 rounded-xl overflow-x-auto text-sm; }
+            .markdown-content code { @apply bg-hover-bg px-1.5 py-0.5 rounded text-copper font-mono text-sm; }
+            .markdown-content pre code { @apply bg-transparent p-0 text-inherit; }
         }
     </style>
 </head>
@@ -277,7 +328,7 @@
             }, []);
 
             return (
-                <div className="relative pt-12 md:pt-24 pb-32 reveal overflow-hidden">
+                <section className="relative pt-12 md:pt-24 pb-32 reveal overflow-hidden" aria-label="Introduction">
                     {/* Background Decorative Mesh Gradient */}
                     <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-mesh opacity-40 blur-[100px] pointer-events-none -z-10 animate-pulse"></div>
 
@@ -305,7 +356,7 @@
                         <p className="border-l-4 border-copper/30 pl-8 italic font-serif text-slate-ink">
                             「在 0 與 1 的邏輯裡尋找秩序，在生活的碎片段落中挖掘驚喜。」
                         </p>
-                        <p className="pl-8 text-subtle md:text-xl font-light">
+                        <p className="pl-8 text-subtle md:text-xl font-normal">
                             嗨，我是 Liwen Chiou。我是一位橫跨 Full-Stack、系統架構與 AI 應用的多元技術實踐者。<br />我將優雅的前端互動、穩固的後端邏輯與前瞻的 AI 技術，編織成能夠持續進化的決策力量。
                         </p>
                     </div>
@@ -317,7 +368,7 @@
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-divider border border-divider overflow-hidden rounded-[2.5rem] shadow-glass">
                             {[
-                                { title: "客製化 Web 開發", desc: "使用 React 與 PHP 打造響應式網站，兼顧視覺美美與數據效能。", icon: "🌐" },
+                                { title: "客製化 Web 開發", desc: "使用 React 與 PHP 打造響應式網站，兼顧視覺美感與數據效能。", icon: "🌐" },
                                 { title: "系統架構設計", desc: "針對中小型企業需求的 ERP 或後台管理系統開發，垂直整合業務邏輯。", icon: "🏗️" },
                                 { title: "資料庫優化與整合", desc: "MySQL 效能調校與異質系統對接，確保數據流穩定且安全。", icon: "💾" },
                                 { title: "UI/UX 組件庫開發", icon: "🎨", desc: "提供高品質的前端元件庫，提升產品開發速度與一致性。" }
@@ -410,7 +461,7 @@
                 {
                     title: "Gridos 螢跡",
                     date: "2026-01-25",
-                    desc: "以視覺化回饋為核心的習慣追蹤應用，靈感源自 GitHub 貢換圖。採用玻璃擬態 UI 設計，將成長足跡轉化為直觀的熱力圖與連續紀錄。",
+                    desc: "以視覺化回饋為核心的習慣追蹤應用，靈感源自 GitHub 貢獻圖。採用玻璃擬態 UI 設計，將成長足跡轉化為直觀的熱力圖與連續紀錄。",
                     tags: ["React", "Vite"],
                     link: "https://github.com/liwenchiou/gridos",
                     image: "./assets/gridos_preview.png"
@@ -452,7 +503,7 @@
                 : sortedProjects.filter(p => p.tags.includes(filter));
 
             return (
-                <div className="py-12 md:py-20 reveal max-w-5xl">
+                <section className="py-12 md:py-20 reveal max-w-5xl" aria-label="Portfolio">
                     <div className="flex flex-col mb-16 gap-10 md:gap-12">
                         <div className="w-full">
                             <h2 className="text-4xl md:text-6xl font-serif font-bold italic mb-6 leading-tight">Selected Portfolio</h2>
@@ -460,7 +511,7 @@
                         </div>
 
                         {/* Tag Filter */}
-                        <div className="relative flex flex-wrap gap-3 p-1 isolate">
+                        <nav className="relative flex flex-wrap gap-3 p-1 isolate" aria-label="Project Categories">
                             {/* Sliding Indicator Background */}
                             <div
                                 className="absolute bg-accent rounded-full transition-all duration-500 ease-liquid shadow-xl shadow-accent/20 -z-10"
@@ -490,7 +541,7 @@
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                         {filteredProjects.map((p, i) => (
-                            <div
+                            <article
                                 key={p.title}
                                 onClick={() => p.link !== '#' && window.open(p.link, '_blank')}
                                 onMouseMove={(e) => {
@@ -530,72 +581,280 @@
                                         </span>
                                     ))}
                                 </div>
-                            </div>
+                            </article>
                         ))}
                     </div>
 
-                    {filteredProjects.length === 0 && (
-                        <div className="py-20 text-center italic text-subtle opacity-50">載入中或是暫無相符的專案...</div>
-                    )}
-                </div>
+                    {
+                filteredProjects.length === 0 && (
+                    <div className="py-20 text-center italic text-subtle opacity-50">載入中或是暫無相符的專案...</div>
+                )
+            }
+                </div >
             );
         };
 
         const TechArticles = () => {
-            const roadmap = [
-                { title: "AI Agent 實戰筆記：從邏輯流到自治執行", status: "writing", date: "Coming Soon" },
-                { title: "零構建 (Zero Build) 架構的生存法則", status: "planned", date: "Planned" },
-                { title: "數位建築師：極簡主義下的 Web 解決方案", status: "planned", date: "Planned" },
-                { title: "PHP 的文藝復興：現代 Web 的背後支柱", status: "planned", date: "Planned" }
-            ];
+            const [posts, setPosts] = useState([]);
+            const [selectedPost, setSelectedPost] = useState(null);
+            const [content, setContent] = useState('');
+            const [loading, setLoading] = useState(true);
+            const [filter, setFilter] = useState('All');
+
+            const buttonRefs = useRef({});
+            const [bgStyle, setBgStyle] = useState({ left: 0, width: 0, opacity: 0 });
+
+            useEffect(() => {
+                const fetchList = async () => {
+                    try {
+                        const res = await fetch('./posts/list.json');
+                        const data = await res.json();
+                        setPosts(data);
+                    } catch (e) { console.error("Manifest load error", e); }
+                    setLoading(false);
+                };
+                fetchList();
+            }, []);
+
+            // Sync Sliding Background
+            useEffect(() => {
+                const updateBg = () => {
+                    const activeButton = buttonRefs.current[filter];
+                    if (activeButton) {
+                        setBgStyle({
+                            left: activeButton.offsetLeft,
+                            width: activeButton.offsetWidth,
+                            height: activeButton.offsetHeight,
+                            top: activeButton.offsetTop,
+                            opacity: 1
+                        });
+                    }
+                };
+                updateBg();
+                window.addEventListener('resize', updateBg);
+                const timer = setTimeout(updateBg, 100);
+                return () => {
+                    window.removeEventListener('resize', updateBg);
+                    clearTimeout(timer);
+                };
+            }, [filter, posts]);
+
+            const readPost = async (filename) => {
+                setLoading(true);
+                try {
+                    const res = await fetch(`./posts/${filename}`);
+                    const text = await res.text();
+                    setContent(marked.parse(text));
+                    setSelectedPost(filename);
+                    setTimeout(() => Prism.highlightAll(), 50);
+                } catch (e) {
+                    console.error("Post load error", e);
+                }
+                setLoading(false);
+            };
+
+            const allTags = ['All', ...new Set(posts.flatMap(p => p.tags || []))];
+            const getTagCount = (tag) => tag === 'All' ? posts.length : posts.filter(p => p.tags?.includes(tag)).length;
+            const filteredPosts = filter === 'All' ? posts : posts.filter(p => p.tags?.includes(filter));
+
+            if (selectedPost) {
+                const currentIndex = posts.findIndex(p => p.filename === selectedPost);
+                const prevPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
+                const nextPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+
+                return (
+                    <article className="py-12 md:py-20 reveal max-w-3xl" aria-label="Article content">
+                        <button
+                            onClick={() => setSelectedPost(null)}
+                            className="mb-12 text-[10px] font-mono font-bold uppercase tracking-widest text-copper hover:translate-x-[-4px] transition-transform flex items-center gap-2"
+                        >
+                            ← Back to Insights
+                        </button>
+
+                        <div className="markdown-content mb-20" dangerouslySetInnerHTML={{ __html: content }} />
+
+                        {/* Article Navigation */}
+                        <nav className="pt-12 border-t border-divider grid grid-cols-1 md:grid-cols-2 gap-8" aria-label="Article navigation">
+                            {prevPost ? (
+                                <div
+                                    onClick={() => readPost(prevPost.filename)}
+                                    className="group cursor-pointer p-6 border border-divider rounded-2xl hover:border-copper transition-all"
+                                >
+                                    <span className="text-[9px] font-mono font-bold uppercase tracking-[0.3em] text-accent/20 group-hover:text-copper mb-2 block">← Previous Insight</span>
+                                    <h4 className="font-serif italic text-lg leading-tight">{prevPost.title}</h4>
+                                </div>
+                            ) : <div></div>}
+
+                            {nextPost && (
+                                <div
+                                    onClick={() => readPost(nextPost.filename)}
+                                    className="group cursor-pointer p-6 border border-divider rounded-2xl hover:border-copper transition-all text-right"
+                                >
+                                    <span className="text-[9px] font-mono font-bold uppercase tracking-[0.3em] text-accent/20 group-hover:text-copper mb-2 block">Next Insight →</span>
+                                    <h4 className="font-serif italic text-lg leading-tight">{nextPost.title}</h4>
+                                </div>
+                            )}
+                        </nav>
+                    </article>
+                );
+            }
+
             return (
-                <div className="py-12 md:py-20 reveal max-w-4xl">
-                    <h2 className="text-4xl md:text-6xl font-serif font-bold italic mb-12 md:mb-16">Technical Insight</h2>
-                    <div className="space-y-6">
-                        {roadmap.map((item, idx) => (
-                            <div key={idx} className="group p-8 border border-divider rounded-2xl bg-white/50 hover:bg-white hover:shadow-glass transition-all duration-500 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                                <div className="flex flex-col gap-2">
-                                    <div className="flex items-center gap-4">
-                                        <span className={`status-badge ${item.status === 'writing' ? 'status-writing' : 'status-planned'}`}>
-                                            {item.status}
-                                        </span>
-                                        <span className="text-[10px] font-mono text-subtle/50 uppercase tracking-widest">{item.date}</span>
-                                    </div>
-                                    <h3 className="text-xl md:text-2xl font-serif font-bold italic group-hover:text-copper transition-colors">{item.title}</h3>
+                <section className="py-12 md:py-20 reveal max-w-4xl" aria-label="Technical Insights">
+                    <h2 className="text-4xl md:text-6xl font-serif font-bold italic mb-12">Technical Insight</h2>
+
+                    {/* Tag Filter Navigation: Synchronized with Portfolio Style */}
+                    <nav className="relative flex flex-wrap gap-3 p-1 isolate mb-20 border-b border-divider pb-12" aria-label="Article categories">
+                        <div
+                            className="absolute bg-accent rounded-full transition-all duration-500 ease-liquid shadow-xl shadow-accent/20 -z-10"
+                            style={bgStyle}
+                        />
+                        {allTags.map(tag => (
+                            <button
+                                key={tag}
+                                ref={el => buttonRefs.current[tag] = el}
+                                onClick={() => setFilter(tag)}
+                                className={`px-5 py-2 rounded-full text-[10px] md:text-[11px] uppercase tracking-widest transition-colors duration-500 font-bold outline-none flex items-center gap-2 ${filter === tag ? 'text-white' : 'text-subtle hover:text-accent'}`}
+                            >
+                                {tag} <span className={`ml-1 opacity-40 ${filter === tag ? 'text-white/60' : ''}`}>({getTagCount(tag)})</span>
+                            </button>
+                        ))}
+                    </nav>
+
+                    {loading && <div className="text-subtle animate-pulse font-mono tracking-widest uppercase text-[10px]">Loading Insights...</div>}
+
+                    <div className="space-y-16">
+                        {filteredPosts.map((post, idx) => (
+                            <article key={idx} className="group cursor-pointer" onClick={() => readPost(post.filename)}>
+                                <div className="flex gap-4 items-center mb-4">
+                                    <span className="text-[10px] font-mono font-bold text-copper/60 uppercase tracking-widest">{post.date}</span>
+                                    <nav className="flex gap-2" aria-label="Article tags">
+                                        {post.tags?.map(t => (
+                                            <span
+                                                key={t}
+                                                onClick={(e) => { e.stopPropagation(); setFilter(t); }}
+                                                className="px-3 py-1 rounded-full border border-divider text-[8px] md:text-[9px] uppercase tracking-widest text-subtle hover:bg-accent hover:text-white transition-all"
+                                            >
+                                                {t}
+                                            </span>
+                                        ))}
+                                    </nav>
                                 </div>
-                                <div className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-accent/20 group-hover:text-copper/60 transition-colors">
-                                    / Insight Queue
+                                <h3 className="text-2xl md:text-3xl font-serif font-bold italic mb-4 group-hover:text-copper transition-colors leading-tight">{post.title}</h3>
+                                <p className="text-sm md:text-base text-subtle font-normal leading-relaxed max-w-2xl">{post.summary}</p>
+                                <div className="mt-6 text-[9px] font-mono font-bold uppercase tracking-[0.4em] text-accent/20 group-hover:text-copper transition-colors">
+                                    / Read Article ->
                                 </div>
-                            </div>
+                            </article>
                         ))}
                     </div>
-                </div>
+                </section>
             );
         }
 
         const LifeSharing = () => {
-            const moments = [
-                { title: "靜聽：代碼之外的感官紀錄", tag: "Photography", date: "Drafting" },
-                { title: "極簡生活：如何清理數位環境與心靈負擔", tag: "Mindset", date: "Planned" }
-            ];
+            const [moments, setMoments] = useState([]);
+            const [selectedMoment, setSelectedMoment] = useState(null);
+            const [content, setContent] = useState('');
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                const fetchList = async () => {
+                    try {
+                        const res = await fetch('./life/list.json');
+                        const data = await res.json();
+                        setMoments(data);
+                    } catch (e) { console.error("Life manifest load error", e); }
+                    setLoading(false);
+                };
+                fetchList();
+            }, []);
+
+            const readMoment = async (filename) => {
+                setLoading(true);
+                try {
+                    const res = await fetch(`./life/${filename}`);
+                    const text = await res.text();
+                    setContent(marked.parse(text));
+                    setSelectedMoment(filename);
+                    setTimeout(() => Prism.highlightAll(), 50);
+                } catch (e) {
+                    console.error("Moment load error", e);
+                }
+                setLoading(false);
+            };
+
+            if (selectedMoment) {
+                const currentIndex = moments.findIndex(m => m.filename === selectedMoment);
+                const prevMoment = currentIndex > 0 ? moments[currentIndex - 1] : null;
+                const nextMoment = currentIndex < moments.length - 1 ? moments[currentIndex + 1] : null;
+
+                return (
+                    <article className="py-12 md:py-20 reveal max-w-3xl" aria-label="Moment content">
+                        <button
+                            onClick={() => setSelectedMoment(null)}
+                            className="mb-12 text-[10px] font-mono font-bold uppercase tracking-widest text-copper hover:translate-x-[-4px] transition-transform flex items-center gap-2"
+                        >
+                            ← Back to Fragments
+                        </button>
+
+                        <div className="markdown-content mb-20" dangerouslySetInnerHTML={{ __html: content }} />
+
+                        {/* Moment Navigation */}
+                        <nav className="pt-12 border-t border-divider grid grid-cols-1 md:grid-cols-2 gap-8" aria-label="Moment navigation">
+                            {prevMoment ? (
+                                <div
+                                    onClick={() => readMoment(prevMoment.filename)}
+                                    className="group cursor-pointer p-6 border border-divider rounded-2xl hover:border-copper transition-all"
+                                >
+                                    <span className="text-[9px] font-mono font-bold uppercase tracking-[0.3em] text-accent/20 group-hover:text-copper mb-2 block">← Previous Moment</span>
+                                    <h4 className="font-serif italic text-lg leading-tight">{prevMoment.title}</h4>
+                                </div>
+                            ) : <div></div>}
+
+                            {nextMoment && (
+                                <div
+                                    onClick={() => readMoment(nextMoment.filename)}
+                                    className="group cursor-pointer p-6 border border-divider rounded-2xl hover:border-copper transition-all text-right"
+                                >
+                                    <span className="text-[9px] font-mono font-bold uppercase tracking-[0.3em] text-accent/20 group-hover:text-copper mb-2 block">Next Moment →</span>
+                                    <h4 className="font-serif italic text-lg leading-tight">{nextMoment.title}</h4>
+                                </div>
+                            )}
+                        </nav>
+                    </article>
+                );
+            }
+
             return (
-                <div className="py-12 md:py-20 reveal max-w-3xl">
+                <section className="py-12 md:py-20 reveal max-w-3xl" aria-label="Life and Fragments">
                     <h2 className="text-4xl md:text-6xl font-serif font-bold italic mb-12 md:mb-16">Life & Fragments</h2>
+                    {loading && <div className="text-subtle animate-pulse font-mono tracking-widest uppercase text-[10px]">Loading Moments...</div>}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {moments.map((item, idx) => (
-                            <div key={idx} className="p-8 border-l-4 border-copper/20 bg-hover-bg/30 rounded-r-3xl transition-all hover:bg-hover-bg/50">
-                                <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-copper/60 mb-4 block"># {item.tag}</span>
-                                <h3 className="text-xl font-serif font-bold mb-4">{item.title}</h3>
-                                <p className="text-[10px] font-mono font-bold opacity-30 uppercase tracking-[0.4em]">{item.date}</p>
-                            </div>
+                            <article
+                                key={idx}
+                                className="group p-8 border-l-4 border-copper/20 bg-hover-bg/30 rounded-r-3xl transition-all hover:bg-hover-bg/50 cursor-pointer"
+                                onClick={() => readMoment(item.filename)}
+                            >
+                                <div className="flex justify-between items-start mb-4">
+                                    <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-copper/60"># {item.tags?.[0] || 'Life'}</span>
+                                    <span className="text-[9px] font-mono font-bold opacity-30 uppercase tracking-widest">{item.date}</span>
+                                </div>
+                                <h3 className="text-xl font-serif font-bold mb-4 group-hover:text-copper transition-colors">{item.title}</h3>
+                                <p className="text-sm text-subtle font-normal line-clamp-2 mb-6">{item.summary}</p>
+                                <div className="text-[9px] font-mono font-bold uppercase tracking-[0.4em] text-accent/20 group-hover:text-copper transition-colors">
+                                    / View Moment ->
+                                </div>
+                            </article>
                         ))}
                     </div>
-                </div>
+                </section>
             );
         };
 
         const Services = () => (
-            <div className="py-12 md:py-24 reveal max-w-5xl mx-auto">
+            <section className="py-12 md:py-24 reveal max-w-5xl mx-auto" aria-label="Services and Contact">
                 {/* Main Author & Services Glass Card */}
                 <div className="bg-white/40 backdrop-blur-xl border border-white/40 rounded-[3rem] p-8 md:p-16 shadow-glass relative overflow-hidden">
                     {/* Subtle Mesh Background Overlay */}
@@ -620,7 +879,7 @@
                                 Full-Stack Engineer & System Architect
                             </p>
                             <p className="font-sans text-lg md:text-xl text-subtle leading-relaxed mb-8 max-w-2xl">
-                                嗨！我是 Liwen。我將優雅的前端互動、穩硬的後端邏輯與 AI 技術結合，為您打造數位解決方案。目前開放技術諮詢與中短期專案合作。
+                                嗨！我是 Liwen。我將優雅的前端互動、穩固的後端邏輯與 AI 技術結合，為您打造數位解決方案。目前開放技術諮詢與中短期專案合作。
                             </p>
                             <div className="flex flex-wrap justify-center md:justify-start gap-4">
                                 <a href="mailto:aa771117@gmail.com" className="px-6 py-3 bg-accent text-white rounded-full font-bold text-[10px] uppercase tracking-widest shadow-lg hover:-translate-y-1 transition-transform">
@@ -640,7 +899,7 @@
                         <span>● Expertise: PHP / React / AI</span>
                     </div>
                 </div>
-            </div>
+            </section>
         );
 
         // --- Main App ---
@@ -728,6 +987,14 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
+    {/* Static SEO Content for Crawlers (Invisible to Users) */}
+    <nav className="sr-only" aria-hidden="true" style={{ display: 'none' }}>
+        <a href="#intro">Liwen Chiou Introduction - Digital Architect</a>
+        <a href="#portfolio">Selected Portfolio - Full-Stack Projects</a>
+        <a href="#tech">Technical Insights - React, AI, PHP Articles</a>
+        <a href="#life">Life & Fragments - Zen and Minimalism</a>
+        <a href="#services">Architecture Services & Collaboration</a>
+    </nav>
 </body>
 
 </html>

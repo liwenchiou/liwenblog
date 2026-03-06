@@ -288,7 +288,7 @@
                                     <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                                     <span className="text-[10px] font-bold uppercase tracking-widest text-subtle">Available for Projects</span>
                                 </div>
-                                <p className="text-[10px] uppercase tracking-[0.2em] text-subtle font-bold opacity-50">Personal Journal 2026</p>
+                                <p className="text-[10px] uppercase tracking-[0.2em] text-subtle font-bold opacity-50">Personal Journal {new Date().getFullYear()}</p>
                             </div>
                             <button onClick={() => setIsOpen(false)} className="md:hidden text-2xl opacity-50 hover:opacity-100">✕</button>
                         </div>
@@ -335,7 +335,7 @@
                     {/* Hero Section: Pro Max Typography */}
                     <div className="mb-24">
                         <span className="text-[10px] md:text-xs font-mono font-bold uppercase tracking-[0.5em] text-copper mb-6 block">
-                            / Digital Architect 2026
+                            / Digital Architect {new Date().getFullYear()}
                         </span>
                         <h1 className="text-5xl md:text-8xl font-serif font-bold italic leading-[1.1] mb-6">
                             Liwen Chiou
@@ -895,7 +895,7 @@
                     {/* Bottom Utility Status */}
                     <div className="mt-16 pt-8 border-t border-white/20 flex flex-wrap gap-8 font-mono text-[9px] uppercase tracking-widest text-accent/40 justify-center md:justify-start">
                         <span>● Location: Taiwan</span>
-                        <span>● Availability: Q2 2026</span>
+                        <span>● Availability: Q2 {new Date().getFullYear()}</span>
                         <span>● Expertise: PHP / React / AI</span>
                     </div>
                 </div>
@@ -977,7 +977,7 @@
 
                         {/* Static Footer inside scroll area */}
                         <div className="py-12 md:py-20 opacity-30 text-[9px] md:text-[10px] font-bold tracking-[0.3em] uppercase border-t border-divider text-center md:text-left">
-                            © 2026 Liwen Chiou. Built with Meaning.
+                            © {new Date().getFullYear()} Liwen Chiou. Built with Meaning.
                         </div>
                     </main>
                 </div>
@@ -988,7 +988,7 @@
         root.render(<App />);
     </script>
     {/* Static SEO Content for Crawlers (Invisible to Users) */}
-    <nav className="sr-only" aria-hidden="true" style={{ display: 'none' }}>
+    <nav className="sr-only">
         <a href="#intro">Liwen Chiou Introduction - Digital Architect</a>
         <a href="#portfolio">Selected Portfolio - Full-Stack Projects</a>
         <a href="#tech">Technical Insights - React, AI, PHP Articles</a>

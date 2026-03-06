@@ -1,0 +1,57 @@
+[
+    {
+        "filename": "digital-zen.md",
+        "title": "數位禪：在快節奏中的極簡日常",
+        "date": "2026-03-06",
+        "summary": "在 AI 時代保持內心平靜的小實驗，以及我目前的生活工作理念。",
+        "tags": [
+            "Life",
+            "Zen",
+            "Minimalism"
+        ]
+    },
+    {
+        "filename": "morning-coffee-routine.md",
+        "title": "早晨咖啡的儀式感：開機第一步",
+        "date": "2026-03-05",
+        "summary": "分享每天早上開啟高效代碼生活之前的咖啡儀式與心得。",
+        "tags": [
+            "Coffee",
+            "Routine",
+            "Energy"
+        ]
+    },
+    {
+        "filename": "reading-list-2026.md",
+        "title": "我的 2026 讀書清單：技術之外的思考",
+        "date": "2026-03-04",
+        "summary": "整理今年度影響我最深的技術與人文類藏書，拓展代碼之外視野。",
+        "tags": [
+            "Reading",
+            "Mindset",
+            "Wisdom"
+        ]
+    },
+    {
+        "filename": "mountain-climbing-reflection.md",
+        "title": "登山的反思：在高峰處看代碼",
+        "date": "2026-03-03",
+        "summary": "登上高山後的孤獨與寧靜，讓我重新思考複雜系統的架構平衡。",
+        "tags": [
+            "Mountain",
+            "Reflection",
+            "System"
+        ]
+    },
+    {
+        "filename": "analog-photography-journey.md",
+        "title": "前往底片攝影的旅途：慢下來的攝影美學",
+        "date": "2026-03-02",
+        "summary": "紀錄我與老相機的互動，探討在瞬息萬變的世界中捕捉永恆的可能。",
+        "tags": [
+            "Photography",
+            "Analog",
+            "Art"
+        ]
+    }
+]

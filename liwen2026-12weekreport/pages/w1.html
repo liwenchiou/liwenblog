@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M1 第十二週計畫 - 月度回顧</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Noto+Serif+TC:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            /* 莫蘭迪色系定義 */
+            --morandi-bg: #EAE7E2;
+            --morandi-blue: #A8B3B8;
+            --morandi-pink: #C8ADA0;
+            --morandi-green: #9A9B8D;
+            --morandi-yellow: #D1B18D;
+            --morandi-dark: #5D5D5A;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --transition-speed: 1s;
+        }
+
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--morandi-bg);
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+            color: var(--morandi-dark);
+            overflow: hidden;
+        }
+
+        /* 頂部進度條 */
+        #topProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--morandi-blue);
+            z-index: 1000;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* 投影片容器 */
+        .slides-wrapper {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px;
+            position: relative;
+            overflow: hidden;
+            scroll-snap-align: start;
+        }
+
+        /* 背景裝飾 */
+        .bg-deco {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.4;
+            transition: transform 2s ease-in-out;
+        }
+
+        /* 動態進入效果 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+            transition: all var(--transition-speed) cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .active .reveal {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .delay-1 {
+            transition-delay: 0.2s;
+        }
+
+        .delay-2 {
+            transition-delay: 0.4s;
+        }
+
+        .delay-3 {
+            transition-delay: 0.6s;
+        }
+
+        /* 標題樣式 */
+        h1,
+        h2 {
+            font-family: 'Noto Serif TC', serif;
+            margin: 0;
+            color: var(--morandi-dark);
+        }
+
+        .slide-title {
+            font-size: 3.5rem;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .slide-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--morandi-pink);
+            transition: width 1s ease 0.5s;
+        }
+
+        .active .slide-title::after {
+            width: 100%;
+        }
+
+        /* 佈局組件 */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            width: 100%;
+            max-width: 1200px;
+            z-index: 1;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .img-box {
+            width: 100%;
+            height: 450px;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 2s ease;
+        }
+
+        .active .img-box img {
+            transform: scale(1.1);
+        }
+
+        /* 數據條 */
+        .stat-row {
+            margin-bottom: 25px;
+        }
+
+        .stat-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--morandi-dark);
+        }
+
+        .progress-bg {
+            height: 10px;
+            background: #D9D6D1;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--morandi-blue);
+            width: 0;
+            transition: width 1.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .active .progress-fill {
+            width: var(--target-width);
+        }
+
+        /* 標籤 */
+        .tag {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--morandi-green);
+            color: white;
+            border-radius: 50px;
+            margin: 6px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .tag:hover {
+            filter: brightness(1.1);
+            transform: rotate(3deg);
+        }
+
+        /* 導覽按鈕 */
+        .nav-controls {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .btn-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--morandi-blue);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .btn-circle:hover {
+            background: var(--morandi-blue);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* 滑鼠跟隨裝飾 (選配互動) */
+        #cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--morandi-pink);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease-out;
+            transform: translate(-50%, -50%);
+            display: none;
+            /* 預設關閉，可於JS開啟 */
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .img-box {
+                height: 300px;
+            }
+
+            .slide {
+                padding: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="topProgress"></div>
+    <div id="cursor-follower"></div>
+
+    <div class="nav-controls">
+        <button class="btn-circle" onclick="prevSlide()"><i class="fa-solid fa-arrow-up"></i></button>
+        <button class="btn-circle" onclick="nextSlide()"><i class="fa-solid fa-arrow-down"></i></button>
+    </div>
+
+    <div class="slides-wrapper" id="slidesWrapper">
+
+        <!-- Slide 1: Cover -->
+        <section class="slide" id="s1">
+            <div class="bg-deco"
+                style="width: 600px; height: 600px; background: var(--morandi-blue); top: -200px; left: -200px;"></div>
+            <div class="bg-deco"
+                style="width: 400px; height: 400px; background: var(--morandi-pink); bottom: -100px; right: -100px;">
+            </div>
+
+            <div class="reveal">
+                <p style="letter-spacing: 8px; color: var(--morandi-blue); font-weight: bold; margin-bottom: 20px;">
+                    PROGRESS REPORT</p>
+                <h1 style="font-size: 6rem; line-height: 1.1;">秩序的<br><span
+                        style="color: var(--morandi-pink);">重建</span></h1>
+                <p style="font-size: 1.8rem; margin-top: 30px; opacity: 0.7; font-weight: 300;">第十二週計畫：第一個月執行回顧</p>
+                <div style="width: 100px; height: 4px; background: var(--morandi-yellow); margin-top: 50px;"></div>
+            </div>
+        </section>
+
+        <!-- Slide 2: Intro -->
+        <section class="slide" id="s2">
+            <h2 class="slide-title reveal">前言：告別隨性</h2>
+            <div class="content-grid">
+                <div class="reveal delay-1">
+                    <div class="img-box">
+                        <img src="https://images.unsplash.com/photo-1516533075015-a3838414c3ca?auto=format&fit=crop&q=80&w=1000"
+                            alt="Work Process">
+                    </div>
+                </div>
+                <div class="reveal delay-2 card"
+                    style="display: flex; flex-direction: column; justify-content: center;">
+                    <p style="font-size: 1.5rem; line-height: 2.2; margin: 0;">
+                        「過去，我總是想到什麼做什麼，結果往往是未知的。」<br><br>
+                        這次活動強迫我先做規劃，學著按計畫執行。這是一個從未有過的秩序感重建。
+                    </p>
+                    <p
+                        style="color: var(--morandi-blue); font-weight: bold; margin-top: 30px; border-left: 4px solid var(--morandi-pink); padding-left: 20px;">
+                        感謝學長姊的陪伴執行。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 3: Stats -->
+        <section class="slide" id="s3">
+            <h2 class="slide-title reveal">第一月：執行率看板</h2>
+            <div class="content-grid">
+                <div class="reveal delay-1 card">
+                    <div class="stat-row">
+                        <div class="stat-label"><span>健康與體態 (Health & Fitness)</span><span>A+</span></div>
+                        <div class="progress-bg">
+                            <div class="progress-fill" style="--target-width: 95%; background: var(--morandi-green);">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-label"><span>專業技能 (React / Tailwind)</span><span>A</span></div>
+                        <div class="progress-bg">
+                            <div class="progress-fill" style="--target-width: 100%; background: var(--morandi-blue);">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-label"><span>計畫管理 (Management)</span><span>B+</span></div>
+                        <div class="progress-bg">
+                            <div class="progress-fill" style="--target-width: 85%; background: var(--morandi-yellow);">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-label"><span>自我成長 (Reading)</span><span>C</span></div>
+                        <div class="progress-bg">
+                            <div class="progress-fill" style="--target-width: 19%; background: var(--morandi-pink);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal delay-2">
+                    <div class="img-box" style="height: 100%;">
+                        <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&q=80&w=1000"
+                            alt="Planning">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 4: Health -->
+        <section class="slide" id="s4">
+            <h2 class="slide-title reveal">亮點：內化的習慣</h2>
+            <div class="content-grid">
+                <div class="reveal delay-1">
+                    <div class="img-box">
+                        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=1000"
+                            alt="Fitness Habits">
+                    </div>
+                </div>
+                <div class="reveal delay-2 card">
+                    <h3 style="color: var(--morandi-green); font-size: 2rem; margin-bottom: 20px;">從適應到完全制霸</h3>
+                    <ul style="line-height: 2.8; font-size: 1.2rem; list-style: none; padding: 0;">
+                        <li><i class="fa-solid fa-check-double"
+                                style="color: var(--morandi-green); margin-right: 15px;"></i> 飛輪運動：100% 全勤 (連續 4 週)</li>
+                        <li><i class="fa-solid fa-droplet" style="color: var(--morandi-blue); margin-right: 15px;"></i>
+                            飲水 2400ml：趨勢 71% ➜ 100%</li>
+                        <li><i class="fa-solid fa-leaf" style="color: var(--morandi-green); margin-right: 15px;"></i>
+                            戒糖挑戰：趨勢 71% ➜ 100%</li>
+                    </ul>
+                    <p style="margin-top: 20px; opacity: 0.7;">身體紀律已成為日常的一部分。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Projects -->
+        <section class="slide" id="s5">
+            <h2 class="slide-title reveal">本月：作品集結</h2>
+            <div class="reveal delay-1" style="width: 100%; max-width: 1100px;">
+                <div style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
+                    <div class="card" style="flex: 1; min-width: 300px; text-align: center;">
+                        <i class="fa-solid fa-code"
+                            style="font-size: 2.5rem; color: var(--morandi-blue); margin-bottom: 20px;"></i>
+                        <h4>Side Projects</h4>
+                        <div style="margin-top: 15px;">
+                            <span class="tag">待辦清單</span>
+                            <span class="tag">六角 API 強化版</span>
+                            <span class="tag">Tailwind Lab</span>
+                            <span class="tag">Gridos 螢跡</span>
+                        </div>
+                    </div>
+                    <div class="card" style="flex: 1; min-width: 300px; text-align: center;">
+                        <i class="fa-solid fa-pen-nib"
+                            style="font-size: 2.5rem; color: var(--morandi-pink); margin-bottom: 20px;"></i>
+                        <h4>知識產出</h4>
+                        <div style="margin-top: 15px;">
+                            <span class="tag">React 直播筆記</span>
+                            <span class="tag">AI 協作流</span>
+                            <span class="tag">閱讀筆記 (進行中)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Warning -->
+        <section class="slide" id="s6">
+            <h2 class="slide-title reveal">檢討：注意力的拉鋸</h2>
+            <div class="content-grid">
+                <div class="reveal delay-1 card" style="border-left: 8px solid var(--morandi-pink);">
+                    <h3 style="color: var(--morandi-pink);">警訊：閱讀計畫 (19%)</h3>
+                    <p style="font-size: 1.2rem; line-height: 2;">
+                        「睡前閱讀」與生理能量狀態衝突。在極度疲累下，意志力無法支撐原本的設定。
+                    </p>
+                    <hr style="opacity: 0.1; margin: 25px 0;">
+                    <p style="font-size: 1.2rem; line-height: 2;">
+                        <strong>自我溝通：</strong> 容易被突如其來的興趣 C 走。正在摸索與自己溝通的最佳頻率。
+                    </p>
+                </div>
+                <div class="reveal delay-2">
+                    <div class="img-box">
+                        <img src="https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&q=80&w=1000"
+                            alt="Focusing">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Future (M2) -->
+        <section class="slide" id="s7">
+            <h2 class="slide-title reveal">未來：M2 優化策略</h2>
+            <div class="reveal delay-1" style="width: 100%; max-width: 1100px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+                    <div class="card">
+                        <h4 style="color: var(--morandi-blue);">1. 身份定義</h4>
+                        <p>從「要做什麼」轉向「成為什麼樣的人」。</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color: var(--morandi-green);">2. 提醒系統</h4>
+                        <p>導入 iPhone 提醒事項，強迫每日 Checkbox。</p>
+                    </div>
+                    <div class="card">
+                        <h4 style="color: var(--morandi-yellow);">3. 串聯規劃</h4>
+                        <p>願景 ➔ 月計畫 ➔ 週計畫，環環相扣。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal delay-2" style="margin-top: 50px; text-align: center;">
+                <p style="font-family: 'Noto Serif TC'; font-size: 1.8rem; font-style: italic; opacity: 0.6;">
+                    「一點一點去完成人生的願景。」
+                </p>
+            </div>
+        </section>
+
+        <!-- Slide 8: End -->
+        <section class="slide" id="s8">
+            <div class="bg-deco"
+                style="width: 500px; height: 500px; background: var(--morandi-yellow); top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            </div>
+            <div class="reveal" style="text-align: center;">
+                <h1 style="font-size: 5rem; margin-bottom: 20px;">感謝聆聽</h1>
+                <p style="font-size: 1.5rem; opacity: 0.7;">期待第二個月與更有秩序的自己相遇</p>
+                <div style="margin-top: 60px;">
+                    <button class="tag" style="padding: 15px 40px; font-size: 1.1rem; background: var(--morandi-blue);"
+                        onclick="scrollToSlide(0)">重新開始</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const wrapper = document.getElementById('slidesWrapper');
+        const sections = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('topProgress');
+        const follower = document.getElementById('cursor-follower');
+        let currentIdx = 0;
+
+        // 滾動監測
+        wrapper.addEventListener('scroll', () => {
+            const scrollPos = wrapper.scrollTop;
+            const totalHeight = wrapper.scrollHeight - wrapper.clientHeight;
+            const progress = (scrollPos / totalHeight) * 100;
+            progressBar.style.width = `${progress}%`;
+        });
+
+        // 動態進入監測 (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    currentIdx = Array.from(sections).indexOf(entry.target);
+                } else {
+                    // entry.target.classList.remove('active'); // 若希望每次進場都動畫，可解除註解
+                }
+            });
+        }, { threshold: 0.6 });
+
+        sections.forEach(s => observer.observe(s));
+
+        // 導覽功能
+        function scrollToSlide(idx) {
+            sections[idx].scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function nextSlide() {
+            if (currentIdx < sections.length - 1) scrollToSlide(currentIdx + 1);
+        }
+
+        function prevSlide() {
+            if (currentIdx > 0) scrollToSlide(currentIdx - 1);
+        }
+
+        // 滑鼠跟隨效果 (僅在大螢幕啟用)
+        if (window.innerWidth > 1024) {
+            follower.style.display = 'block';
+            window.addEventListener('mousemove', (e) => {
+                follower.style.left = e.clientX + 'px';
+                follower.style.top = e.clientY + 'px';
+            });
+        }
+
+        // 鍵盤支援
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            }
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                prevSlide();
+            }
+        });
+
+        // 裝飾動畫
+        function animateDeco() {
+            const decos = document.querySelectorAll('.bg-deco');
+            decos.forEach(deco => {
+                const x = (Math.random() - 0.5) * 100;
+                const y = (Math.random() - 0.5) * 100;
+                deco.style.transform += ` translate(${x}px, ${y}px)`;
+            });
+        }
+        setInterval(animateDeco, 4000);
+    </script>
+</body>
+
+</html>

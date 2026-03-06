@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026-02 每月總結：知 · 覺 · 住</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Outfit:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Framer Motion -->
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-base: #F8F9FA;
+            --primary: #1E293B;
+            --accent: #E2E8F0;
+            --warm-wood: #D4C4B5;
+            --deep-sea: #0F172A;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.3);
+        }
+
+        body {
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--primary);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 0% 0%, rgba(212, 196, 181, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(15, 23, 42, 0.05) 0%, transparent 50%);
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #0F172A 0%, #334155 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--warm-wood), transparent);
+            margin-top: 8px;
+            border-radius: 2px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { motion, AnimatePresence } = window.Motion;
+
+        const App = () => {
+            useEffect(() => {
+                lucide.createIcons();
+            }, []);
+
+            const stats = [
+                { label: "月平均執行分", value: "73%", sub: "4 週數據彙整", icon: "CheckCircle2" },
+                { label: "習慣達成率", value: "95.7%", sub: "連續兩週滿分", icon: "Zap" },
+                { label: "能量心境值", value: "4.3", sub: "1-5 分量表", icon: "Heart" },
+                { label: "計畫進度", value: "66%", sub: "12 週總進度條", icon: "TrendingUp" }
+            ];
+
+            const goals = [
+                { title: "培養運動習慣", status: "partial", desc: "飛輪課程全數撐過，慢跑待加強。" },
+                { title: "落實十二週計畫", status: "done", desc: "正式導入 Antigravity，計畫透明度提升。" },
+                { title: "培養專業技能", status: "done", desc: "React 專題試講成功，Agent 研究有成。" },
+                { title: "培養閱讀習慣", status: "done", desc: "閱讀習慣穩定內化，達成率極高。" }
+            ];
+
+            const narrative = [
+                {
+                    category: "🏘️ 家庭、育兒與居家準備",
+                    bullets: [
+                        "本月心力聚焦迎接新生命「小夕」，完成托腹帶購買與彌月蛋糕試吃。",
+                        "制定年度財務藍圖定稿，提升家庭穩定感。",
+                        "經歷了 2/21 凌晨急診驚險，幸好小夕平安，正式開啟安胎守護模式。",
+                        "月底開始研究客廳地墊與廚房用品，逐步構築「家庭煮夫」實務戰力。"
+                    ]
+                },
+                {
+                    category: "💻 職涯發展與學習專案",
+                    bullets: [
+                        "展現技術投資決心，報名後端培訓營並積極參與 React 專案推進。",
+                        "順利完成專案成果發表試講，表現優異。",
+                        "正式啟動 Antigravity AI 助理研究，掌握 Agent Skills 架構並帶來開發變革。"
+                    ]
+                },
+                {
+                    category: "🏃 運動、娛樂與日常",
+                    bullets: [
+                        "年後飛輪課成為本月「生存挑戰」，雖然過程痛苦但均順利存活。",
+                        "享受埔里老家悠閒、《尋秦記》懷舊時光與世貿展覽。",
+                        "深刻體悟年紀大了戰力不足，吃不了「兩餐」與「我家牛排」自助吧。"
+                    ]
+                }
+            ];
+
+            const gains = [
+                { title: "技術定見", desc: "確立專業工程師在「業務邏輯」與「架構設計」上的不可替代性。" },
+                { title: "家庭韌性", desc: "在面對急診突發事件與安胎變動時，能迅速冷靜應對並啟動整備。" },
+                { title: "管理系統化", desc: "從 0 到 1 建立起 Antigravity 管理架構，執行更具數據引導力。" }
+            ];
+
+            return (
+                <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+                    {/* Hero Section */}
+                    <motion.header
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="text-center mb-20 relative"
+                    >
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 w-96 h-96 bg-wood-200/20 rounded-full blur-3xl"></div>
+                        <h1 className="text-5xl sm:text-7xl md:text-9xl font-extrabold tracking-tighter text-gradient mb-6 whitespace-nowrap">
+                            【知 · 覺 · 住】
+                        </h1>
+                        <p className="text-xl md:text-2xl text-slate-500 font-light max-w-2xl mx-auto leading-relaxed">
+                            看清了工程師的價值，也看懂了「家庭煮夫」的未來日常。
+                        </p>
+                        <div className="mt-8 flex justify-center items-center gap-4 text-slate-400">
+                            <span className="h-[1px] w-20 bg-slate-200"></span>
+                            <span className="uppercase tracking-[0.2em] text-sm">2026 February Report</span>
+                            <span className="h-[1px] w-20 bg-slate-200"></span>
+                        </div>
+                    </motion.header>
+
+                    {/* Dashboard Section */}
+                    <section className="mb-24">
+                        <h2 className="text-3xl sm:text-5xl font-bold mb-12 section-header tracking-tight">📊 執行數據總覽</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {stats.map((stat, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    className="glass-card p-8 group hover:border-slate-400 transition-all duration-300"
+                                >
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="p-3 bg-slate-100 rounded-2xl group-hover:bg-slate-800 group-hover:text-white transition-colors duration-300">
+                                            <i data-lucide={stat.icon} className="w-6 h-6"></i>
+                                        </div>
+                                        <span className="text-xs font-semibold text-slate-400 uppercase tracking-widest leading-none mt-1">{stat.sub}</span>
+                                    </div>
+                                    <div className="text-4xl font-bold mb-1">{stat.value}</div>
+                                    <div className="text-sm text-slate-500 font-medium">{stat.label}</div>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        {/* Progress Bar */}
+                        <div className="mt-12 glass-card p-8">
+                            <div className="flex justify-between items-end mb-4">
+                                <div>
+                                    <h3 className="text-lg font-bold">12 週計畫：藍圖同步進度</h3>
+                                    <p className="text-sm text-slate-500">當前位於 Month 2 / 3</p>
+                                </div>
+                                <div className="text-2xl font-black text-slate-800">66%</div>
+                            </div>
+                            <div className="w-full h-4 bg-slate-100 rounded-full overflow-hidden p-1">
+                                <motion.div
+                                    initial={{ width: 0 }}
+                                    whileInView={{ width: '66%' }}
+                                    transition={{ duration: 1.5, ease: "easeOut" }}
+                                    className="h-full bg-gradient-to-r from-slate-400 via-slate-700 to-slate-900 rounded-full shadow-lg"
+                                ></motion.div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Goals Section */}
+                    <section className="mb-24">
+                        <h2 className="text-3xl sm:text-5xl font-bold mb-12 section-header tracking-tight">🎯 月計畫目標達成狀況</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {goals.map((goal, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    whileHover={{ y: -5 }}
+                                    className="glass-card p-8 flex gap-6 items-start"
+                                >
+                                    <div className={`mt-1 p-2 rounded-full ${goal.status === 'done' ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-600'}`}>
+                                        <i data-lucide={goal.status === 'done' ? 'Check' : 'AlertCircle'} className="w-6 h-6"></i>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-2xl font-bold mb-2">{goal.title}</h3>
+                                        <p className="text-slate-600 font-light leading-relaxed">{goal.desc}</p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Narrative Section */}
+                    <section className="mb-24">
+                        <h2 className="text-3xl sm:text-5xl font-bold mb-12 section-header tracking-tight">📖 深度生活回顧</h2>
+                        <div className="space-y-8">
+                            {narrative.map((item, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: idx * 0.2 }}
+                                    className="glass-card overflow-hidden group"
+                                >
+                                    <div className="flex flex-col md:flex-row">
+                                        <div className="md:w-1/3 bg-slate-900 text-white p-8 md:p-12 flex flex-col justify-center items-center text-center">
+                                            <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-500">{item.category.split(' ')[0]}</div>
+                                            <h3 className="text-xl font-bold tracking-tight">{item.category.split(' ')[1]}</h3>
+                                        </div>
+                                        <div className="md:w-2/3 p-8 md:p-12 bg-white/40">
+                                            <ul className="space-y-4">
+                                                {item.bullets.map((bullet, bIdx) => (
+                                                    <li key={bIdx} className="text-lg text-slate-700 leading-relaxed font-light flex gap-3">
+                                                        <span className="text-slate-400 mt-1">•</span>
+                                                        <span>{bullet}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Gains Section */}
+                    <section className="mb-24">
+                        <h2 className="text-3xl sm:text-5xl font-bold mb-12 section-header tracking-tight">💎 月度三大獲益</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {gains.map((gain, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: idx * 0.2 }}
+                                    className="bg-slate-900 text-white rounded-[32px] p-10 flex flex-col items-center text-center shadow-2xl relative overflow-hidden group"
+                                >
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
+                                    <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-6">
+                                        <span className="text-2xl font-black">0{idx + 1}</span>
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-4">{gain.title}</h3>
+                                    <p className="text-slate-400 text-sm leading-relaxed">{gain.desc}</p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* Creations Section */}
+                    <section className="mb-24">
+                        <h2 className="text-3xl sm:text-5xl font-bold mb-12 section-header tracking-tight">🛠️ 這個月玩出來的小東西</h2>
+                        <motion.div
+                            whileHover={{ scale: 1.01 }}
+                            className="glass-card p-10 flex flex-col md:flex-row items-center gap-10 border-2 border-slate-500/10 shadow-2xl bg-gradient-to-br from-white/80 to-slate-100/80"
+                        >
+                            <div className="w-24 h-24 bg-slate-900 text-white rounded-3xl flex items-center justify-center flex-shrink-0 animate-pulse">
+                                <i data-lucide="Compass" className="w-12 h-12"></i>
+                            </div>
+                            <div className="flex-grow">
+                                <h3 className="text-3xl font-bold mb-3">12-week-navigator</h3>
+                                <p className="text-slate-600 mb-6 font-light text-lg">
+                                    這是一個關於十二週計畫的 Skill，在研究技術細節時實作出的專案成果。
+                                </p>
+                                <a
+                                    href="https://liwenchiou.github.io/12-week-navigator/"
+                                    target="_blank"
+                                    className="inline-flex items-center gap-2 bg-slate-900 text-white px-8 py-3 rounded-full font-bold hover:bg-slate-700 transition-all shadow-xl hover:shadow-2xl active:scale-95"
+                                >
+                                    立即造訪作品 <i data-lucide="ExternalLink" className="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </motion.div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="mt-40 pt-12 border-t border-slate-200 text-center flex flex-col items-center gap-6">
+                        <div className="p-4 bg-slate-900 rounded-2xl text-white inline-block">
+                            <i data-lucide="Anchor" className="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <p className="text-sm font-bold tracking-widest uppercase text-slate-800">Antigravity Plan System</p>
+                            <p className="text-xs text-slate-400 mt-2">© 2026 Crafted with ❤️ for Qiuliwen</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>

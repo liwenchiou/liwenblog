@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 成長紀實｜liwen 的十二週計畫</title>
+
+    <!-- Google Fonts: Caveat (手寫) + Fira Code (工程師 Console) + Noto Sans TC (中文標題) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"Fira Code"', 'monospace'],
+                        hand: ['"Caveat"', 'cursive'],
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                    },
+                    colors: {
+                        paper: '#FDFBF7',
+                        ink: '#2D3748',
+                        accent: '#3182CE',
+                        grid: '#E2E8F0',
+                        binder: '#FC8181'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 筆記本網格與背景 */
+        body {
+            background-color: var(--tw-colors-paper);
+            background-image: linear-gradient(var(--tw-colors-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--tw-colors-grid) 1px, transparent 1px);
+            background-size: 24px 24px;
+            color: var(--tw-colors-ink);
+        }
+
+        /* 筆記本左側紅線 (Binder Line) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 60px;
+            width: 2px;
+            background-color: var(--tw-colors-binder);
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            body::before {
+                left: 20px;
+            }
+        }
+
+        /* 卡片懸停效果 */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px) rotate(-1deg);
+            box-shadow: 8px 8px 0px rgba(45, 55, 72, 0.15);
+            border-color: var(--tw-colors-accent);
+        }
+
+        /* 動畫 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* Swiper 分頁按鈕樣式調整 */
+        .swiper-pagination-bullet-active {
+            background: var(--tw-colors-accent) !important;
+        }
+    </style>
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y4GS567V9B"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-Y4GS567V9B');
+</script>
+
+<body class="font-mono antialiased relative overflow-x-hidden">
+
+    <!-- Header 區塊 -->
+    <header class="max-w-7xl mx-auto px-6 md:px-24 pt-20 pb-12 fade-in" style="animation-delay: 0.1s;">
+        <div
+            class="inline-flex items-center gap-2 px-3 py-1 bg-ink text-white text-xs rounded shadow-sm mb-6 border-b-2 border-accent">
+            <i data-lucide="terminal" class="w-4 h-4 text-accent"></i>
+            ~/2026/my-12-week-goal/
+        </div>
+        <!-- 縮小標題：手機版維持在一行，確保不尷尬換行 -->
+        <h1
+            class="font-sans text-3xl sm:text-5xl md:text-7xl font-black text-ink mb-6 tracking-tight leading-loose sm:leading-tight">
+            2026 <span class="text-accent underline decoration-wavy decoration-2 underline-offset-8">liwen 的十二週計畫</span>
+        </h1>
+        <div
+            class="bg-white/80 backdrop-blur border-2 border-ink border-dashed p-4 rounded-lg shadow-sm max-w-2xl text-sm leading-relaxed text-ink/80">
+            <span class="text-accent font-bold">&gt; [系統日誌]</span> 啟動 12 週成長循環。<br>
+            <span class="text-accent font-bold">&gt; [當前任務]</span> 追蹤習慣、優化工作流程，並在 12 個里程碑月份中部署持續的自我提升。<br>
+            <span class="text-accent font-bold">&gt; [記錄工具]</span>
+            <a href="https://liwenchiou.github.io/12-week-navigator/" target="_blank"
+                class="text-binder font-bold underline decoration-binder decoration-2 underline-offset-4 hover:bg-binder hover:text-white px-1 py-0.5 rounded transition-all inline-block mt-1 sm:mt-0">
+                12-week-navigator
+            </a>，這是一個我用來做十二週記錄的 Skill。
+        </div>
+    </header>
+
+    <!-- Months 區塊: Desktop Grid -->
+    <main class="max-w-7xl mx-auto px-6 md:px-24 hidden md:block">
+        <div id="cards-container-desktop" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- JavaScript 會注入 Desktop 卡片內容 -->
+        </div>
+    </main>
+
+    <!-- Months 區塊: Mobile Swiper (小螢幕顯示) -->
+    <main class="w-full px-6 md:hidden overflow-hidden fade-in" style="animation-delay: 0.2s;">
+        <!-- Swiper 容器 -->
+        <div class="swiper mySwiper !pb-6 !pt-4 !px-2 -mx-2">
+            <div id="cards-container-mobile" class="swiper-wrapper">
+                <!-- JavaScript 手機版只會注入 status 不為 locked 的卡片 -->
+            </div>
+            <!-- 分頁點 -->
+            <div class="swiper-pagination !bottom-0"></div>
+        </div>
+    </main>
+
+    <!-- 作者與聯絡資訊 (About Me / Contact) -->
+    <section class="max-w-7xl mx-auto px-6 md:px-24 mt-8 md:mt-12 fade-in" style="animation-delay: 0.5s;">
+        <div class="bg-white border-2 border-ink rounded-lg p-6 md:p-8 shadow-[6px_6px_0px_#2D3748] relative">
+            <div
+                class="absolute -top-3 -left-3 bg-accent text-white font-mono text-xs font-bold px-3 py-1 border-2 border-ink transform -rotate-2">
+                AUTHOR.INFO
+            </div>
+
+            <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                <!-- 頭像區塊 -->
+                <div
+                    class="w-20 h-20 shrink-0 rounded border-2 border-ink bg-grid flex items-center justify-center overflow-hidden">
+                    <i data-lucide="user" class="w-10 h-10 text-ink/50"></i>
+                </div>
+
+                <div class="flex-1">
+                    <h2 class="font-sans text-2xl font-bold text-ink mb-1">Liwen Chiou</h2>
+                    <p class="font-mono text-sm text-accent mb-3">> Software Engineer | Creator | Lifelong Learner</p>
+                    <p class="font-sans text-sm text-ink/80 leading-relaxed mb-4">
+                        嗨！這本日誌記錄著我 2026 年的「十二週計畫」成長軌跡。如果這套系統對你有所幫助，或是想與我交流工程師生活、自我成長等話題，非常歡迎透過以下方式與我聯繫！
+                    </p>
+
+                    <div class="flex flex-wrap gap-3 font-mono text-sm">
+                        <a href="https://github.com/liwenchiou" target="_blank"
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-paper border border-ink text-ink hover:bg-ink hover:text-white transition-colors rounded">
+                            <i data-lucide="github" class="w-4 h-4"></i> @liwenchiou
+                        </a>
+                        <!-- Email 聯絡方式 -->
+                        <a href="mailto:aa771117@gmail.com"
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-paper border border-ink text-ink hover:bg-ink hover:text-white transition-colors rounded">
+                            <i data-lucide="mail" class="w-4 h-4"></i> 寫信給我
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+        class="mt-20 border-t-2 border-grid border-dashed py-12 text-center text-xs text-ink/60 fade-in font-mono relative"
+        style="animation-delay: 0.6s;">
+
+        <!-- 裝飾用剪刀與 EOF 標籤 (模擬筆記本撕頁線) -->
+        <div
+            class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-paper px-4 text-ink/40 font-bold tracking-widest text-[0.65rem] flex items-center gap-2">
+            <i data-lucide="scissors" class="w-3 h-3"></i> CUT HERE
+        </div>
+
+        <div class="flex flex-col items-center justify-center gap-3 px-4">
+            <div
+                class="flex items-center justify-center w-10 h-10 rounded-full border border-grid bg-white shadow-sm mb-1">
+                <i data-lucide="terminal-square" class="w-5 h-5 text-accent"></i>
+            </div>
+            <p class="font-bold tracking-wider text-ink/80 font-sans">十二週成長紀實 <span class="text-accent mx-2">|</span>
+                記錄於 2026</p>
+            <p class="text-ink/60 font-sans max-w-lg leading-relaxed">
+                <span class="font-mono text-accent font-bold">> WARNING: </span>這是一個會把生活目標當成產品在開發的軟體工程師。<br
+                    class="hidden sm:block">如果您覺得有趣，或者團隊正缺個好隊友，歡迎隨時拍打餵食或找我交流！
+            </p>
+            <p class="text-[10px] text-ink/40 mt-3 pt-3 border-t border-grid w-48 mx-auto font-mono">© 2026 Liwen Chiou.
+            </p>
+        </div>
+    </footer>
+
+    <!-- 資料定義區域：要修改月份內容改這裡就好 -->
+    <script>
+        // ========================================================================
+        // 💡 月份資料庫 (Month Database)
+        // 當完成新的月份時，只需要修改這個變數陣列！
+        // ========================================================================
+        const monthData = [
+            {
+                id: "01", name: "一月", weeks: "2026 第 1-5 週",
+                title: "秩序的重建",
+                subtitle: "第十二週計畫：第一個月執行回顧",
+                status: "completed", // 狀態可以是: 'completed'(已完成), 'processing'(執行中), 'locked'(未解鎖)
+                progress: "100%",
+                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80",
+                link: "./pages/w1.html"
+            },
+            {
+                id: "02", name: "二月", weeks: "2026 第 6-9 週",
+                title: "知 · 覺 · 住",
+                subtitle: "看清了工程師的價值，也看懂了「家庭煮夫」的未來日常。",
+                status: "completed",
+                progress: "73%",
+                image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&q=80",
+                link: "./pages/w2.html"
+            },
+            {
+                id: "03", name: "三月", weeks: "2026 第 10-13 週",
+                title: "三月",
+                subtitle: "執行中，數據採集中...",
+                status: "processing",
+                progress: "10%",
+                image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80",
+                link: "#"
+            },
+            { id: "04", name: "四月", weeks: "2026 第 14-18 週", title: "四月", subtitle: "尚未解鎖", status: "locked", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" },
+            { id: "05", name: "五月", weeks: "2026 第 19-22 週", title: "五月", subtitle: "尚未解鎖", status: "locked", image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&q=80" },
+            { id: "06", name: "六月", weeks: "2026 第 23-27 週", title: "六月", subtitle: "尚未解鎖", status: "locked", image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80" },
+            { id: "07", name: "七月", weeks: "2026 第 28-31 週", title: "七月", subtitle: "尚未解鎖", status: "locked", image: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=600&q=80" },
+            { id: "08", name: "八月", weeks: "2026 第 32-35 週", title: "八月", subtitle: "尚未解鎖", status: "locked", image: "https://images.unsplash.com/photo-1605379399642-870262d3d051?w=600&q=80" },
+            { id: "09", name: "九月", weeks: "2026 第 36-40 週", title: "九月", subtitle: "尚未解鎖", status: "locked", image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80" },
+            { id: "10", name: "十月", weeks: "2026 第 41-44 週", title: "十月", subtitle: "尚未解鎖", status: "locked", image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=600&q=80" },
+            { id: "11", name: "十一月", weeks: "2026 第 45-48 週", title: "十一月", subtitle: "尚未解鎖", status: "locked", image: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?w=600&q=80" },
+            { id: "12", name: "十二月", weeks: "2026 第 49-53 週", title: "十二月", subtitle: "尚未解鎖", status: "locked", image: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=600&q=80" }
+        ];
+
+        // 渲染卡片的函數
+        function renderCards() {
+            const containerDesktop = document.getElementById('cards-container-desktop');
+            const containerMobile = document.getElementById('cards-container-mobile');
+
+            let desktopHtml = '';
+            let mobileHtml = '';
+
+            monthData.forEach((month, index) => {
+                const delay = 0.2 + (index * 0.1);
+                let cardClass = "";
+                let imageClass = "";
+                let imageOverlay = "";
+                let buttonHtml = "";
+                let progressHtml = "";
+
+                if (month.status === 'completed') {
+                    // 已完成狀態
+                    cardClass = "bg-white border-2 border-ink shadow-[4px_4px_0px_#2D3748] card-hover";
+                    imageClass = "w-full h-full object-cover";
+                    imageOverlay = "<div class='absolute inset-0 bg-ink/20'></div><span class='absolute top-2 right-2 bg-accent text-white text-xs font-bold px-2 py-0.5 rounded border border-ink shadow-sm font-sans'>" + month.id + " / " + month.name + "</span>";
+
+                    progressHtml = `
+                        <div class="flex items-center justify-between mb-2 text-xs font-semibold font-sans">
+                            <span>當月執行百分比：</span>
+                            <span class="text-accent font-mono">${month.progress}</span>
+                        </div>
+                        <div class="w-full bg-grid h-1.5 rounded-full mb-4 border border-ink/10 overflow-hidden relative">
+                            <div class="bg-accent h-full absolute top-0 left-0" style="width: ${month.progress}"></div>
+                        </div>
+                    `;
+
+                    buttonHtml = `
+                        <a href="${month.link}" target="_blank" class="block w-full text-center bg-ink text-white py-2 rounded hover:bg-accent hover:border-accent border border-ink transition-colors text-xs font-bold shadow-sm font-mono">
+                            > 執行 ./view_report
+                        </a>
+                    `;
+                } else if (month.status === 'processing') {
+                    // 執行中狀態
+                    cardClass = "bg-white border-2 border-ink shadow-[4px_4px_0px_#2D3748] card-hover";
+                    imageClass = "w-full h-full object-cover grayscale";
+                    imageOverlay = "<div class='absolute inset-0 bg-ink/40 mix-blend-multiply'></div><span class='absolute top-2 right-2 bg-white text-ink text-xs font-bold px-2 py-0.5 rounded border border-ink shadow-sm font-sans'>" + month.id + " / " + month.name + "</span>";
+
+                    progressHtml = `
+                        <div class="flex items-center justify-between mb-2 text-xs font-semibold font-sans">
+                            <span>當月執行百分比：</span>
+                            <span class="text-amber-500 animate-pulse font-mono">執行中...</span>
+                        </div>
+                        <div class="w-full bg-grid h-1.5 rounded-full mb-4 border border-ink/10 overflow-hidden relative">
+                            <div class="bg-amber-500 h-full animate-pulse absolute top-0 left-0" style="width: ${month.progress}"></div>
+                        </div>
+                    `;
+
+                    buttonHtml = `
+                        <a href="#" class="block w-full text-center bg-amber-100 text-amber-700 py-2 rounded border border-amber-300 text-xs font-bold cursor-wait font-mono">
+                            > processing...
+                        </a>
+                    `;
+                } else {
+                    // 未解鎖狀態
+                    cardClass = "bg-white border-2 border-grid shadow-sm opacity-60";
+                    imageClass = "w-full h-full object-cover grayscale opacity-50";
+                    imageOverlay = "<span class='absolute top-2 right-2 bg-slate-100 text-slate-400 text-xs font-bold px-2 py-0.5 rounded border border-grid font-sans'>" + month.id + " / " + month.name + "</span>";
+
+                    progressHtml = "";
+
+                    buttonHtml = `
+                        <a href="#" class="block w-full text-center bg-slate-50 text-slate-400 py-2 rounded border border-grid text-xs font-bold pointer-events-none font-mono">
+                            > locked
+                        </a>
+                    `;
+                }
+
+                const articleHTML = `
+                <article class="w-full flex flex-col h-[26rem] rounded-lg overflow-hidden fade-in ${cardClass}" style="animation-delay: ${delay}s;">
+                    <div class="h-36 w-full relative shrink-0 border-b-2 ${month.status === 'locked' ? 'border-grid' : 'border-ink'}">
+                        <img src="${month.image}" alt="Cover" class="${imageClass}">
+                        ${imageOverlay}
+                    </div>
+                    <div class="p-5 flex flex-col flex-1">
+                        <div class="text-[0.7rem] ${month.status === 'locked' ? 'text-slate-400' : 'text-accent'} font-bold mb-2 flex items-center gap-1.5 uppercase tracking-wider font-mono">
+                            <i data-lucide="calendar-range" class="w-3.5 h-3.5"></i> ${month.weeks}
+                        </div>
+                        <h2 class="font-sans text-2xl font-bold ${month.status === 'locked' ? 'text-slate-400' : 'text-ink'} mb-2 tracking-wide">${month.title}</h2>
+                        <p class="text-xs ${month.status === 'locked' ? 'text-slate-400' : 'text-ink/70'} mb-6 flex-1 line-clamp-3 min-h-[32px] font-sans">
+                            ${month.subtitle}
+                        </p>
+                        
+                        <div class="mt-auto pt-3 border-t-2 border-dashed ${month.status === 'locked' ? 'border-grid' : 'border-grid'}">
+                            ${progressHtml}
+                            ${buttonHtml}
+                        </div>
+                    </div>
+                </article>
+                `;
+
+                // 桌面版: 全部加上
+                desktopHtml += articleHTML;
+
+                // 手機版: 只有 completed 或 processing 的加入 Swiper
+                if (month.status !== 'locked') {
+                    mobileHtml += `<div class="swiper-slide h-auto flex pr-1 pb-2 pt-1">${articleHTML}</div>`;
+                }
+            });
+
+            if (containerDesktop) containerDesktop.innerHTML = desktopHtml;
+            if (containerMobile) containerMobile.innerHTML = mobileHtml;
+        }
+
+        // 執行渲染與初始化圖示與 Swiper
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCards();
+            lucide.createIcons();
+
+            // RWD Swiper 輪播初始化
+            new Swiper('.mySwiper', {
+                slidesPerView: 1,
+                spaceBetween: 16,
+                grabCursor: true,
+                autoHeight: true,
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                    dynamicBullets: true,
+                },
+            });
+        });
+    </script>
+</body>
+
+</html>

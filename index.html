@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liwen | Minimal Portfolio</title>
+    <!-- React 18 & ReactDOM CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <!-- Babel for JSX compilation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- High-end Fonts: Playfair Display (Serif EN), Noto Serif TC (Serif ZH), Inter (Sans EN), Noto Sans TC (Sans ZH) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Serif+TC:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', 'system-ui', 'sans-serif'],
+                        serif: ['Playfair Display', 'Noto Serif TC', 'Georgia', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        'soft-bg': '#FDFDFD',
+                        'accent': '#1A1A1A',
+                        'subtle': '#717171',
+                        'divider': '#F1F1F1',
+                        'hover-bg': '#F8F8F8',
+                        'copper': '#D27B5E',
+                        'slate-ink': '#2D3436',
+                        'glass-white': 'rgba(255, 255, 255, 0.45)',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
+                        'glow': '0 0 20px rgba(210, 123, 94, 0.15)',
+                    },
+                    backgroundImage: {
+                        'mesh': 'radial-gradient(at 0% 0%, rgba(210, 123, 94, 0.05) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(74, 85, 104, 0.05) 0px, transparent 50%)',
+                    },
+                    transitionTimingFunction: {
+                        'liquid': 'cubic-bezier(0.4, 0, 0.2, 1)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-soft-bg text-accent font-sans m-0 p-0 overflow-x-hidden antialiased;
+                /* Standardizing Line Height for mixed ZH/EN text */
+                line-height: 1.75;
+            }
+            /* Unifying Headings - Serif for Emphasis, Sans for Structure */
+            h1, h2 {
+                @apply font-serif;
+                letter-spacing: -0.01em;
+            }
+            h3, h4, h5, h6 {
+                @apply font-sans;
+            }
+            /* Spacing for Chinese titles to look more premium */
+            .font-serif {
+                letter-spacing: 0.02em;
+            }
+            .font-sans {
+                letter-spacing: 0.01em;
+            }
+        }
+        @layer utilities {
+            .sidebar-item {
+                @apply px-4 py-3 rounded-xl transition-all duration-300 flex items-center gap-3 text-sm font-medium text-subtle hover:text-accent hover:bg-hover-bg;
+            }
+            .sidebar-item.active {
+                @apply text-accent bg-hover-bg;
+            }
+            .reveal {
+                @apply opacity-0 translate-y-4 animate-[reveal_0.8s_cubic-bezier(0.4,0,0.2,1)_forwards];
+            }
+            @keyframes reveal {
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .tag-btn {
+                @apply transition-all duration-500 ease-liquid active:scale-95;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // --- Sidebar Component ---
+        const Sidebar = ({ activeItem, setActiveItem, isOpen, setIsOpen }) => {
+            const menuItems = [
+                { id: 'intro', label: '介紹 / About', icon: '👤' },
+                { id: 'portfolio', label: '作品集 / Portfolio', icon: '🎨' },
+                { id: 'tech', label: '技術文章 / Tech', icon: '✍️' },
+                { id: 'life', label: '生活分享 / Life', icon: '🍃' },
+                { id: 'services', label: '合作接案 / Services', icon: '💼' }
+            ];
+
+            const handleItemClick = (id) => {
+                setActiveItem(id);
+                setIsOpen(false);
+            };
+
+            return (
+                <>
+                    {/* Mobile Overlay */}
+                    {isOpen && (
+                        <div
+                            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[60] md:hidden"
+                            onClick={() => setIsOpen(false)}
+                        ></div>
+                    )}
+
+                    <aside className={`fixed md:sticky top-0 left-0 w-80 h-screen border-r border-divider flex flex-col p-8 bg-white z-[70] transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+                        <div className="mb-12 flex justify-between items-start">
+                            <div>
+                                <div className="text-2xl font-serif font-bold italic tracking-tight mb-2 text-nowrap">Liwen Chiou</div>
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-subtle">Available for Projects</span>
+                                </div>
+                                <p className="text-[10px] uppercase tracking-[0.2em] text-subtle font-bold opacity-50">Personal Journal 2026</p>
+                            </div>
+                            <button onClick={() => setIsOpen(false)} className="md:hidden text-2xl opacity-50 hover:opacity-100">✕</button>
+                        </div>
+
+                        <nav className="flex-1 space-y-1">
+                            {menuItems.map(item => (
+                                <button
+                                    key={item.id}
+                                    onClick={() => handleItemClick(item.id)}
+                                    className={`sidebar-item w-full ${activeItem === item.id ? 'active' : ''}`}
+                                >
+                                    <span className="text-lg">{item.icon}</span>
+                                    {item.label}
+                                </button>
+                            ))}
+                        </nav>
+
+                        <div className="pt-8 border-t border-divider">
+                            <p className="text-[10px] text-subtle opacity-40 uppercase tracking-widest leading-loose text-center">
+                                Build with Passion<br />
+                                Every Single Week
+                            </p>
+                        </div>
+                    </aside>
+                </>
+            );
+        };
+
+        // --- Main Content Components ---
+        const Introduction = () => {
+            const roles = ["Full-Stack Engineer", "System Architect", "AI Solution Expert"];
+            const [roleIndex, setRoleIndex] = useState(0);
+
+            useEffect(() => {
+                const timer = setInterval(() => setRoleIndex(prev => (prev + 1) % roles.length), 3000);
+                return () => clearInterval(timer);
+            }, []);
+
+            return (
+                <div className="relative pt-12 md:pt-24 pb-32 reveal overflow-hidden">
+                    {/* Background Decorative Mesh Gradient */}
+                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-mesh opacity-40 blur-[100px] pointer-events-none -z-10 animate-pulse"></div>
+
+                    {/* Hero Section: Pro Max Typography */}
+                    <div className="mb-24">
+                        <span className="text-[10px] md:text-xs font-mono font-bold uppercase tracking-[0.5em] text-copper mb-6 block animate-pulse">
+                            Digital Architect 2026
+                        </span>
+                        <h1 className="text-5xl md:text-8xl font-serif font-bold italic leading-[1.1] mb-6">
+                            Liwen Chiou
+                        </h1>
+                        <div className="flex flex-col md:flex-row md:items-center gap-6">
+                            <div className="px-5 py-2 bg-accent text-white rounded-full text-[11px] font-mono font-bold flex items-center gap-3 w-fit">
+                                <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-ping"></span>
+                                {roles[roleIndex]}
+                            </div>
+                            <p className="text-xl md:text-2xl font-serif italic text-subtle">
+                                Building elegant, scalable solutions for the modern web.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Pro Max Bio */}
+                    <div className="max-w-4xl space-y-8 mb-32 text-lg md:text-2xl text-accent/80 font-normal leading-relaxed">
+                        <p className="border-l-4 border-copper/30 pl-8 italic font-serif text-slate-ink">
+                            「在 0 與 1 的邏輯裡尋找秩序，在生活的碎片段落中挖掘驚喜。」
+                        </p>
+                        <p className="pl-8 text-subtle md:text-xl font-light">
+                            嗨，我是 Liwen Chiou。我是一位橫跨 Full-Stack、系統架構與 AI 應用的多元技術實踐者。<br />我將優雅的前端互動、穩固的後端邏輯與前瞻的 AI 技術，編織成能夠持續進化的決策力量。
+                        </p>
+                    </div>
+
+                    {/* Core Services: The Architecture */}
+                    <div>
+                        <h3 className="text-sm font-mono font-bold uppercase tracking-[0.4em] text-accent/50 mb-12">
+                            / Professional Capabilities
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-divider border border-divider overflow-hidden rounded-[2.5rem] shadow-glass">
+                            {[
+                                { title: "客製化 Web 開發", desc: "使用 React 與 PHP 打造響應式網站，兼顧視覺美美與數據效能。", icon: "🌐" },
+                                { title: "系統架構設計", desc: "針對中小型企業需求的 ERP 或後台管理系統開發，垂直整合業務邏輯。", icon: "🏗️" },
+                                { title: "資料庫優化與整合", desc: "MySQL 效能調校與異質系統對接，確保數據流穩定且安全。", icon: "💾" },
+                                { title: "UI/UX 組件庫開發", icon: "🎨", desc: "提供高品質的前端元件庫，提升產品開發速度與一致性。" }
+                            ].map((svc, idx) => (
+                                <div key={idx} className="bg-white/80 p-8 md:p-12 hover:bg-white transition-all duration-700 group relative">
+                                    <div className="text-2xl mb-8 opacity-60 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-2 duration-500 origin-left inline-block">{svc.icon}</div>
+                                    <h4 className="text-2xl font-bold mb-4 font-serif italic text-slate-ink">{svc.title}</h4>
+                                    <p className="text-subtle font-normal leading-relaxed text-sm md:text-lg">{svc.desc}</p>
+                                    <div className="mt-8 text-[10px] font-mono font-bold uppercase tracking-widest text-copper opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
+                                        Explore Capability ->
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Experience Status Bar */}
+                    <div className="mt-24 pt-12 border-t border-divider flex flex-wrap justify-center md:justify-start gap-12 font-mono text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-accent/40">
+                        <div className="flex items-center gap-3">
+                            <span className="w-1.5 h-1.5 bg-copper rounded-full"></span>
+                            Location: TAIWAN / ASIA
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <span className="w-1.5 h-1.5 bg-copper rounded-full"></span>
+                            Status: Available for Consulting
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <span className="w-1.5 h-1.5 bg-copper rounded-full"></span>
+                            Exp: 8+ Years in Dev
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const Portfolio = () => {
+            const [filter, setFilter] = useState('All');
+            const [bgStyle, setBgStyle] = useState({ left: 0, width: 0, height: 0, top: 0, opacity: 0 });
+            const buttonRefs = useRef({});
+
+            useEffect(() => {
+                const updateBg = () => {
+                    const activeButton = buttonRefs.current[filter];
+                    if (activeButton) {
+                        setBgStyle({
+                            left: activeButton.offsetLeft,
+                            width: activeButton.offsetWidth,
+                            height: activeButton.offsetHeight,
+                            top: activeButton.offsetTop,
+                            opacity: 1
+                        });
+                    }
+                };
+
+                // Update on filter change or window resize
+                updateBg();
+
+                // Extra delay to catch layout after "reveal" animation starts
+                const timer = setTimeout(updateBg, 100);
+                window.addEventListener('resize', updateBg);
+
+                return () => {
+                    window.removeEventListener('resize', updateBg);
+                    clearTimeout(timer);
+                };
+            }, [filter]);
+
+            const projects = [
+                {
+                    title: "Verified Security Report",
+                    date: "2026-03-05",
+                    desc: "企業級雙重核實資安通報技能包，整合 165 防騙網與事實查核中心數據，自動生成跨部門防詐騙指南。",
+                    tags: ["AI Agent", "Markdown"],
+                    link: "https://github.com/liwenchiou/verified-security-report",
+                    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80"
+                },
+                {
+                    title: "12-Week Navigator",
+                    date: "2026-02-24",
+                    desc: "個人成長導航系統，基於 12-Week Year 策略，透過對話式追蹤與 AI 自動化分析，協助精準執行目標並校準進化路徑。",
+                    tags: ["React", "AI Agent"],
+                    link: "https://liwenchiou.github.io/12-week-navigator/",
+                    image: "./assets/navigator_preview.png"
+                },
+                {
+                    title: "Gridos 螢跡",
+                    date: "2026-01-25",
+                    desc: "以視覺化回饋為核心的習慣追蹤應用，靈感源自 GitHub 貢換圖。採用玻璃擬態 UI 設計，將成長足跡轉化為直觀的熱力圖與連續紀錄。",
+                    tags: ["React", "Vite"],
+                    link: "https://github.com/liwenchiou/gridos",
+                    image: "./assets/gridos_preview.png"
+                },
+                {
+                    title: "Tailwind Lab Pro",
+                    date: "2026-01-25",
+                    desc: "Tailwind CSS 可視化樣式配置工具，支援多狀態（Hover/Active）配置與智慧去重代碼輸出，大幅提升前端開發效率與設計質感。",
+                    tags: ["React", "Tailwind"],
+                    link: "https://github.com/liwenchiou/tailwindLab",
+                    image: "./assets/tailwind_lab.png"
+                },
+                {
+                    title: "2026 成長紀實",
+                    date: "2026-03-05",
+                    desc: "基於十二週計畫系統的自我成長日誌，透過數據與筆記記錄 2026 年的進化軌跡。",
+                    tags: ["HTML", "CSS"],
+                    link: "./liwen2026-12weekreport/index.html",
+                    image: "./assets/growth_report.png"
+                },
+                {
+                    title: "Git 練功房",
+                    date: "2025-12-14",
+                    desc: "透過 GitHub API 深度分析 Commit 歷史，自動計算開發練習的投入時長與學習進度，是工程師追蹤技術進化軌跡的最佳工具。",
+                    tags: ["React", "GitHub API"],
+                    link: "https://liwenchiou.github.io/git-practice-tracker/",
+                    image: "./assets/git_tracker.png"
+                },
+            ];
+
+            // Sort projects by date descending
+            const sortedProjects = [...projects].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Extract unique tags
+            const allTags = ['All', ...new Set(sortedProjects.flatMap(p => p.tags))];
+            const filteredProjects = filter === 'All'
+                ? sortedProjects
+                : sortedProjects.filter(p => p.tags.includes(filter));
+
+            return (
+                <div className="py-12 md:py-20 reveal max-w-5xl">
+                    <div className="flex flex-col mb-16 gap-10 md:gap-12">
+                        <div className="w-full">
+                            <h2 className="text-4xl md:text-6xl font-serif font-bold italic mb-6 leading-tight">Selected Portfolio</h2>
+                            <p className="text-base md:text-lg text-subtle font-normal italic border-l-2 border-accent/30 pl-6">探索我的實戰專案與技術沉澱，每一項作品都代表著一次技術深度的突破與實驗。</p>
+                        </div>
+
+                        {/* Tag Filter */}
+                        <div className="relative flex flex-wrap gap-3 p-1 isolate">
+                            {/* Sliding Indicator Background */}
+                            <div
+                                className="absolute bg-accent rounded-full transition-all duration-500 ease-liquid shadow-xl shadow-accent/20 -z-10"
+                                style={bgStyle}
+                            />
+                            {allTags.map(tag => (
+                                <button
+                                    key={tag}
+                                    ref={el => buttonRefs.current[tag] = el}
+                                    onClick={() => setFilter(tag)}
+                                    className={`px-5 py-2 rounded-full text-[10px] md:text-[11px] uppercase tracking-widest transition-colors duration-500 font-bold outline-none ${filter === tag ? 'text-white' : 'text-subtle hover:text-accent'
+                                        }`}
+                                >
+                                    {tag}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                        {filteredProjects.map((p, i) => (
+                            <div
+                                key={p.title}
+                                onClick={() => p.link !== '#' && window.open(p.link, '_blank')}
+                                className="group border-b border-divider pb-10 md:pb-12 cursor-pointer animate-reveal"
+                            >
+                                <div className="aspect-video bg-hover-bg rounded-2xl mb-6 overflow-hidden border border-divider">
+                                    <img src={p.image} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" alt={p.title} />
+                                </div>
+                                <div className="flex justify-between items-start mb-2 group-hover:translate-x-2 transition-transform duration-500">
+                                    <h3 className="text-xl md:text-2xl font-serif font-bold">{p.title}</h3>
+                                    <span className="text-[10px] font-bold text-subtle opacity-40 uppercase tracking-widest pt-2">{p.date.replace(/-/g, '.')}</span>
+                                </div>
+                                <p className="text-subtle text-sm font-normal mb-4 leading-relaxed">{p.desc}</p>
+                                <div className="flex flex-wrap gap-2">
+                                    {p.tags.map(t => (
+                                        <span
+                                            key={t}
+                                            onClick={(e) => { e.stopPropagation(); setFilter(t); }}
+                                            className="text-[8px] md:text-[9px] uppercase tracking-widest border border-warm-gray px-2 py-1 rounded-full text-subtle hover:bg-accent hover:text-white transition-colors"
+                                        >
+                                            {t}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {filteredProjects.length === 0 && (
+                        <div className="py-20 text-center italic text-subtle opacity-50">載入中或是暫無相符的專案...</div>
+                    )}
+                </div>
+            );
+        };
+
+        const TechArticles = () => {
+            return (
+                <div className="py-12 md:py-20 reveal max-w-4xl">
+                    <h2 className="text-4xl md:text-6xl font-serif font-bold italic mb-12 md:mb-16">Technical Insight</h2>
+                    <div className="py-24 flex flex-col items-center justify-center border border-dashed border-divider rounded-3xl opacity-60 bg-hover-bg/30">
+                        <div className="text-5xl mb-6">✍️</div>
+                        <h3 className="text-xl md:text-2xl font-serif font-bold italic mb-3">內容建置中</h3>
+                        <p className="text-sm md:text-base font-light italic text-subtle">目前正在整理技術筆記與實戰心得，這裡很快就會有乾貨分享。</p>
+                    </div>
+                </div>
+            );
+        }
+
+        const LifeSharing = () => {
+            return (
+                <div className="py-12 md:py-20 reveal max-w-3xl">
+                    <h2 className="text-4xl md:text-6xl font-serif font-bold italic mb-12 md:mb-16">Life & Fragments</h2>
+                    <div className="py-24 flex flex-col items-center justify-center border border-l-4 border-l-accent border-divider bg-hover-bg/30 rounded-r-3xl opacity-70 pl-8">
+                        <div className="text-5xl mb-6">⏳</div>
+                        <h3 className="text-xl md:text-2xl font-serif font-bold italic mb-3">生活軌跡建置中</h3>
+                        <p className="text-sm md:text-base font-light italic text-subtle">正在紀錄程式碼以外的碎片段落與驚喜，敬請期待。</p>
+                    </div>
+                </div>
+            );
+        };
+
+        const Services = () => (
+            <div className="py-12 md:py-24 reveal max-w-5xl mx-auto">
+                {/* Main Author & Services Glass Card */}
+                <div className="bg-white/40 backdrop-blur-xl border border-white/40 rounded-[3rem] p-8 md:p-16 shadow-glass relative overflow-hidden">
+                    {/* Subtle Mesh Background Overlay */}
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-mesh opacity-30 blur-3xl -z-10 rotate-12"></div>
+
+                    {/* Identification Badge */}
+                    <div className="flex items-center gap-3 mb-10">
+                        <span className="w-2 h-2 bg-copper rounded-full animate-pulse"></span>
+                        <span className="text-xs font-mono font-bold uppercase tracking-[0.4em] text-copper">
+                            Author Identification & Services
+                        </span>
+                    </div>
+
+                    {/* Section 1: Author Info */}
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-12 mb-16 border-b border-white/40 pb-16">
+                        <div className="w-32 h-32 shrink-0 rounded-[2.5rem] bg-white/60 flex items-center justify-center shadow-glass transform hover:scale-105 transition-all duration-700 overflow-hidden">
+                            <img src="assets/IMG_5334.JPG" alt="Liwen Chiou" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex-1 text-center md:text-left">
+                            <h2 className="font-serif text-5xl md:text-6xl font-bold text-slate-ink mb-4 italic leading-tight">Liwen Chiou</h2>
+                            <p className="font-mono text-sm text-accent/60 mb-6 font-bold tracking-widest uppercase">
+                                Full-Stack Engineer & System Architect
+                            </p>
+                            <p className="font-sans text-lg md:text-xl text-subtle leading-relaxed mb-8 max-w-2xl">
+                                嗨！我是 Liwen。我將優雅的前端互動、穩硬的後端邏輯與 AI 技術結合，為您打造數位解決方案。目前開放技術諮詢與中短期專案合作。
+                            </p>
+                            <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                                <a href="mailto:aa771117@gmail.com" className="px-6 py-3 bg-accent text-white rounded-full font-bold text-[10px] uppercase tracking-widest shadow-lg hover:-translate-y-1 transition-transform">
+                                    Start a Conversation
+                                </a>
+                                <a href="https://github.com/liwenchiou" target="_blank" className="px-6 py-3 border border-accent/20 text-accent hover:border-accent rounded-full font-bold text-[10px] uppercase tracking-widest hover:-translate-y-1 transition-transform">
+                                    Review GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Bottom Utility Status */}
+                    <div className="mt-16 pt-8 border-t border-white/20 flex flex-wrap gap-8 font-mono text-[9px] uppercase tracking-widest text-accent/40 justify-center md:justify-start">
+                        <span>● Location: Taiwan</span>
+                        <span>● Availability: Q2 2026</span>
+                        <span>● Expertise: PHP / React / AI</span>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // --- Main App ---
+        const App = () => {
+            const [activeItem, setActiveItem] = useState('intro');
+            const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+            return (
+                <div className="flex flex-col md:flex-row h-screen w-full relative">
+
+                    {/* Mobile Top Bar */}
+                    <div className="md:hidden flex items-center justify-between p-6 bg-white border-b border-divider z-40 sticky top-0">
+                        <div className="text-xl font-serif font-bold italic">Liwen Chiou</div>
+                        <button onClick={() => setIsSidebarOpen(true)} className="text-2xl">☰</button>
+                    </div>
+
+                    <Sidebar
+                        activeItem={activeItem}
+                        setActiveItem={setActiveItem}
+                        isOpen={isSidebarOpen}
+                        setIsOpen={isSidebarOpen} // Pass the setter
+                        setIsOpen={setIsSidebarOpen}
+                    />
+
+                    <main className="flex-1 overflow-y-auto px-8 md:px-24 bg-soft-bg scroll-smooth">
+                        {activeItem === 'intro' && <Introduction />}
+                        {activeItem === 'portfolio' && <Portfolio />}
+                        {activeItem === 'tech' && <TechArticles />}
+                        {activeItem === 'life' && <LifeSharing />}
+                        {activeItem === 'services' && <Services />}
+
+                        {/* Static Footer inside scroll area */}
+                        <div className="py-12 md:py-20 opacity-30 text-[9px] md:text-[10px] font-bold tracking-[0.3em] uppercase border-t border-divider text-center md:text-left">
+                            © 2026 Liwen Chiou. Built with Meaning.
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>

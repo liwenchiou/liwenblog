@@ -1,52 +1,114 @@
 [
     {
-        "filename": "zero-build-manifesto.md",
-        "title": "零構建 (Zero Build) 架構的生存法則",
-        "date": "2026-03-06",
-        "summary": "探討如何不經過 npm install 也能打造現代化的 React SPA，回歸 Web 的即時開發美學。",
+        "filename": "swiper-tutorial.md",
+        "title": "Swiper 簡單應用：打造流暢的輪播效果",
+        "date": "2026-03-09",
+        "summary": "快速上手 Swiper 套件，從 CDN 引入到響應式設定，讓您的網站輕鬆擁有自動輪播與導航控制功能。",
         "tags": [
-            "React",
-            "Architecture"
+            "JavaScript",
+            "學習筆記"
         ]
     },
     {
-        "filename": "ai-agent-logic.md",
-        "title": "AI Agent 的邏輯流：從指令到自治執行",
-        "date": "2026-03-05",
-        "summary": "深入探討 AI 如何處理複雜指令，並透過子目標拆解與反思機制完成任務。",
+        "filename": "html5-semantic-tags.md",
+        "title": "HTML5 語意化標籤：打造 SEO 友善的網頁結構",
+        "date": "2026-03-09",
+        "summary": "深入了解 HTML5 語意化標籤的使用時機與意義，從 header, nav 到 figure, time，學習如何建立具備良好結構與 SEO 優勢的網頁。",
         "tags": [
-            "Frontend",
-            "AI"
+            "HTML",
+            "學習筆記"
         ]
     },
     {
-        "filename": "modern-php-renaissance.md",
-        "title": "PHP 的文藝復興：現代 Web 的背後支柱",
-        "date": "2026-03-04",
-        "summary": "在 Laravel 與強型別體系下，PHP 依然是快速交付與穩定性最佳的後端選擇。",
+        "filename": "course-notes-restful-api.md",
+        "title": "[課程筆記] 第二堂：RESTful API 串接",
+        "date": "2026-03-09",
+        "summary": "深入非同步程式設計的核心 async/await，學習如何使用 Axios 串接 API，並了解 RESTful 設計原則與 Vite 開發環境。",
         "tags": [
-            "React",
-            "Fullstack"
+            "六角學院",
+            "學習筆記"
         ]
     },
     {
-        "filename": "css-glassmorphism-guide.md",
-        "title": "CSS Glassmorphism 實戰：打造 Pro Max 質感",
-        "date": "2026-03-03",
-        "summary": "全方位剖析毛玻璃效果的實作技巧，包括模糊度、反射與細膩邊框的完美平衡。",
+        "filename": "course-notes-js-fundamentals.md",
+        "title": "[課程筆記] 第一堂：重新打造 JavaScript 思維，從拆解認識設計模式",
+        "date": "2026-03-09",
+        "summary": "掌握 React 開發必備的 JS 核心知識：從解構賦值、陣列方法到關注點分離的軟體設計原則。",
         "tags": [
-            "CSS",
-            "UI"
+            "六角學院",
+            "學習筆記"
         ]
     },
     {
-        "filename": "react-cdn-performance.md",
-        "title": "React CDN 效能優化：零構建不代表慢",
-        "date": "2026-03-02",
-        "summary": "分享如何在無編譯環境下，透過預載入與快取策略優化 React 渲染效能。",
+        "filename": "vite-setup-guide.md",
+        "title": "使用 Vite 建立 React 專案",
+        "date": "2026-03-09",
+        "summary": "Step-by-step 指南：學習如何利用 Vite 快速初始化一個現代化的 React 開發環境。",
         "tags": [
-            "React",
-            "Performance"
+            "React"
+        ]
+    },
+    {
+        "filename": "react-cdn-usage.md",
+        "title": "直接在 HTML 中使用 React (CDN 版)",
+        "date": "2026-03-09",
+        "summary": "無需建構工具，介紹如何透過 CDN 方式在傳統 HTML 頁面中引入 React 並編寫編碼。",
+        "tags": [
+            "React"
+        ]
+    },
+    {
+        "filename": "react-use-state.md",
+        "title": "useState：管理組件的「記憶」",
+        "date": "2026-03-09",
+        "summary": "學習 React 最核心的 Hook：useState。了解如何定義狀態、觸發更新，以及處理複雜的物件狀態更新技巧。",
+        "tags": [
+            "React"
+        ]
+    },
+    {
+        "filename": "react-use-effect.md",
+        "title": "useEffect：與外部世界互動的橋樑",
+        "date": "2026-03-09",
+        "summary": "掌握 React 最強大的 Hook：useEffect。學習如何處理異步資料獲取、生命週期管理以及必要的清除機制。",
+        "tags": [
+            "React"
+        ]
+    },
+    {
+        "filename": "react-use-ref.md",
+        "title": "useRef：掌握 React 的「儲物櫃」與 DOM 操控",
+        "date": "2026-03-09",
+        "summary": "深入了解 useRef 的雙重身份：它是存取實體 DOM 的橋樑，也是儲存不需觸發渲染資料的私密儲物櫃。",
+        "tags": [
+            "React"
+        ]
+    },
+    {
+        "filename": "react-hook-form.md",
+        "title": "React Hook Form：頂尖表單處理實戰",
+        "date": "2026-03-09",
+        "summary": "告別臃腫的代碼與無效的渲染，學習如何使用 React Hook Form 打造高效能且易於驗證的表單系統。",
+        "tags": [
+            "React"
+        ]
+    },
+    {
+        "filename": "redux-toolkit.md",
+        "title": "Redux Toolkit (RTK) 狀態管理實戰",
+        "date": "2026-03-09",
+        "summary": "以 ERP 庫存管理為例，深入淺出 RTK 的 Store、Slice、Dispatch 與 Selector 核心概念。",
+        "tags": [
+            "React"
+        ]
+    },
+    {
+        "filename": "react-router.md",
+        "title": "React Router 核心指南",
+        "date": "2026-03-09",
+        "summary": "全方位解析 React Router 的核心組件、Hooks 應用，以及麵包屑導航與路由守衛的實戰技巧。",
+        "tags": [
+            "React"
         ]
     }
 ]

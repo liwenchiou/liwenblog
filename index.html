@@ -61,8 +61,14 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-php.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -172,20 +178,104 @@
             .status-planned { @apply bg-divider text-subtle/60; }
             .status-writing { @apply bg-copper/10 text-copper; }
             
-            /* Markdown Styling */
-            .markdown-content {
-                @apply font-sans;
+            /* Premium Terminal Frame */
+            .terminal-container {
+                @apply my-10 rounded-2xl overflow-hidden shadow-2xl border border-white/5 relative;
+                background-color: #0d1117;
             }
-            .markdown-content h1 { @apply text-4xl font-serif mb-8 border-b border-divider pb-4; }
-            .markdown-content h2 { @apply text-2xl font-serif mt-12 mb-6; }
-            .markdown-content p { @apply mb-6 text-accent leading-loose; }
-            .markdown-content ul { @apply list-disc list-inside mb-6 space-y-2; }
-            .markdown-content blockquote { @apply border-l-4 border-copper/30 pl-6 italic my-8; }
-            .markdown-content pre { @apply my-8 rounded-xl overflow-x-auto text-sm; }
-            .markdown-content code { @apply bg-hover-bg px-1.5 py-0.5 rounded text-copper font-mono text-sm; }
-            .markdown-content pre code { @apply bg-transparent p-0 text-inherit; }
+            .terminal-header {
+                @apply flex items-center justify-between px-5 py-3 bg-[#161b22] border-b border-white/5;
+            }
+            .terminal-dots {
+                @apply flex gap-2;
+            }
+            .dot { @apply w-3 h-3 rounded-full; }
+            .dot-red { @apply bg-[#ff5f56]; }
+            .dot-yellow { @apply bg-[#ffbd2e]; }
+            .dot-green { @apply bg-[#27c93f]; }
+            
+            .code-lang {
+                @apply text-[10px] font-mono font-bold uppercase tracking-widest text-[#8b949e] opacity-60;
+            }
+
+            .markdown-content pre { 
+                @apply m-0 p-0 !bg-transparent border-none;
+                background: transparent !important;
+            }
+
+            .markdown-content pre code { 
+                @apply block p-6 text-[#e6edf3] font-mono leading-relaxed text-sm overflow-x-auto;
+                background: transparent !important;
+            }
+
+            .copy-btn-inner {
+                @apply px-3 py-1 rounded-md bg-white/5 border border-white/10 text-white/50 hover:text-white hover:bg-white/10 transition-all text-[10px] font-bold uppercase tracking-wider flex items-center gap-2;
+            }
+            
+            .markdown-content {
+                font-family: 'Noto Sans TC', sans-serif !important;
+            }
+
+            .markdown-content code:not(pre code) { 
+                @apply bg-copper/10 px-1.5 py-0.5 rounded text-copper font-mono text-[0.85em] font-bold; 
+            }
+
+            /* Simplified Typography for Articles */
+            .markdown-content h1 {
+                @apply font-bold text-slate-ink mb-8 mt-4 leading-tight;
+                font-size: clamp(1.5rem, 5vw, 2.5rem);
+            }
+            .markdown-content h2 {
+                @apply text-2xl md:text-3xl font-bold text-slate-ink mb-6 mt-12 leading-snug;
+            }
+            .markdown-content h3 {
+                @apply text-xl md:text-2xl font-bold text-slate-ink/90 mb-4 mt-8;
+            }
+            .markdown-content p {
+                @apply text-subtle leading-relaxed mb-6 font-normal;
+            }
+            .markdown-content ul, .markdown-content ol {
+                @apply mb-6 pl-6 space-y-2;
+            }
+            .markdown-content li {
+                @apply text-subtle leading-relaxed;
+            }
+            .markdown-content ul li {
+                @apply list-disc;
+            }
+            .markdown-content ol li {
+                @apply list-decimal;
+            }
+            .markdown-content strong {
+                @apply font-bold text-slate-ink;
+            }
+            .markdown-content a {
+                @apply text-copper font-bold border-b border-copper/30 hover:border-copper transition-all;
+            }
+            .markdown-content table {
+                @apply w-full mb-8 border-collapse text-sm text-left my-8;
+            }
+            .markdown-content th {
+                @apply bg-copper/5 px-4 py-3 font-bold text-slate-ink border-b border-copper/20 uppercase tracking-widest text-[11px];
+            }
+            .markdown-content td {
+                @apply px-4 py-3 border-b border-divider/40 text-subtle leading-relaxed;
+            }
+            .markdown-content img {
+                @apply rounded-xl my-8 shadow-glass;
+            }
         }
     </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VD2EXBEHZM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-VD2EXBEHZM');
+    </script>
 </head>
 
 <body>
@@ -193,6 +283,52 @@
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
+
+        // --- Utility: Enhanced Code Processing ---
+        const enhanceCodeBlocks = (container) => {
+            if (!container) return;
+            const preBlocks = container.querySelectorAll('pre');
+            preBlocks.forEach(pre => {
+                if (pre.parentElement.classList.contains('terminal-container')) return;
+
+                const code = pre.querySelector('code');
+                const langMatch = code ? code.className.match(/language-(\w+)/) : null;
+                const lang = langMatch ? langMatch[1] : 'code';
+
+                // Create Frame
+                const wrapper = document.createElement('div');
+                wrapper.className = 'terminal-container relative';
+
+                const header = document.createElement('div');
+                header.className = 'terminal-header';
+                header.innerHTML = `
+                    <div class="terminal-dots">
+                        <div class="dot dot-red"></div>
+                        <div class="dot dot-yellow"></div>
+                        <div class="dot dot-green"></div>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <span class="code-lang">${lang}</span>
+                    </div>
+                `;
+
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn-inner';
+                copyBtn.innerHTML = `<span>COPY</span>`;
+                copyBtn.onclick = () => {
+                    navigator.clipboard.writeText(code.innerText);
+                    copyBtn.innerHTML = '<span>COPIED!</span>';
+                    setTimeout(() => copyBtn.innerHTML = '<span>COPY</span>', 2000);
+                };
+
+                const controls = header.querySelector('.flex');
+                controls.appendChild(copyBtn);
+
+                pre.parentNode.insertBefore(wrapper, pre);
+                wrapper.appendChild(header);
+                wrapper.appendChild(pre);
+            });
+        };
 
         // --- Utility: Typewriter Component ---
         const TypewriterText = ({ text }) => {
@@ -637,6 +773,15 @@
                 };
             }, [filter, posts]);
 
+            const articleRef = useRef(null);
+
+            useEffect(() => {
+                if (content && selectedPost && articleRef.current) {
+                    enhanceCodeBlocks(articleRef.current);
+                    Prism.highlightAllUnder(articleRef.current);
+                }
+            }, [content, selectedPost]);
+
             const readPost = async (filename) => {
                 setLoading(true);
                 try {
@@ -644,12 +789,23 @@
                     const text = await res.text();
                     setContent(marked.parse(text));
                     setSelectedPost(filename);
-                    setTimeout(() => Prism.highlightAll(), 50);
                 } catch (e) {
                     console.error("Post load error", e);
                 }
                 setLoading(false);
             };
+
+            // SEO Enhancement: Dynamic Meta Title
+            useEffect(() => {
+                if (selectedPost && posts.length > 0) {
+                    const post = posts.find(p => p.filename === selectedPost);
+                    if (post) {
+                        document.title = `${post.title} | Liwen Chiou - Digital Architect`;
+                    }
+                } else {
+                    document.title = "Liwen Chiou | Digital Architect & Full-Stack Engineer";
+                }
+            }, [selectedPost, posts]);
 
             const allTags = ['All', ...new Set(posts.flatMap(p => p.tags || []))];
             const getTagCount = (tag) => tag === 'All' ? posts.length : posts.filter(p => p.tags?.includes(tag)).length;
@@ -669,7 +825,7 @@
                             ← Back to Insights
                         </button>
 
-                        <div className="markdown-content mb-20" dangerouslySetInnerHTML={{ __html: content }} />
+                        <div ref={articleRef} className="markdown-content mb-20" dangerouslySetInnerHTML={{ __html: content }} />
 
                         {/* Article Navigation */}
                         <nav className="pt-12 border-t border-divider grid grid-cols-1 md:grid-cols-2 gap-8" aria-label="Article navigation">
@@ -768,6 +924,15 @@
                 fetchList();
             }, []);
 
+            const lifeRef = useRef(null);
+
+            useEffect(() => {
+                if (content && selectedMoment && lifeRef.current) {
+                    enhanceCodeBlocks(lifeRef.current);
+                    Prism.highlightAllUnder(lifeRef.current);
+                }
+            }, [content, selectedMoment]);
+
             const readMoment = async (filename) => {
                 setLoading(true);
                 try {
@@ -775,12 +940,23 @@
                     const text = await res.text();
                     setContent(marked.parse(text));
                     setSelectedMoment(filename);
-                    setTimeout(() => Prism.highlightAll(), 50);
                 } catch (e) {
                     console.error("Moment load error", e);
                 }
                 setLoading(false);
             };
+
+            // SEO Enhancement: Dynamic Meta Title for Moments
+            useEffect(() => {
+                if (selectedMoment && moments.length > 0) {
+                    const momentItem = moments.find(m => m.filename === selectedMoment);
+                    if (momentItem) {
+                        document.title = `${momentItem.title} | Liwen Chiou - Fragment`;
+                    }
+                } else {
+                    document.title = "Liwen Chiou | Digital Architect & Full-Stack Engineer";
+                }
+            }, [selectedMoment, moments]);
 
             if (selectedMoment) {
                 const currentIndex = moments.findIndex(m => m.filename === selectedMoment);
@@ -796,7 +972,7 @@
                             ← Back to Fragments
                         </button>
 
-                        <div className="markdown-content mb-20" dangerouslySetInnerHTML={{ __html: content }} />
+                        <div ref={lifeRef} className="markdown-content mb-20" dangerouslySetInnerHTML={{ __html: content }} />
 
                         {/* Moment Navigation */}
                         <nav className="pt-12 border-t border-divider grid grid-cols-1 md:grid-cols-2 gap-8" aria-label="Moment navigation">
@@ -906,18 +1082,26 @@
                 const hash = window.location.hash.replace('#', '');
                 return ['intro', 'portfolio', 'tech', 'life', 'services'].includes(hash) ? hash : 'intro';
             });
+            const [sectionKey, setSectionKey] = useState(0); // For forcing component reset
             const [isSidebarOpen, setIsSidebarOpen] = useState(false);
             const [loadProgress, setLoadProgress] = useState(0);
             const mainRef = useRef(null);
 
+            const handleNavItemClick = (id) => {
+                if (id === activeItem) {
+                    setSectionKey(prev => prev + 1); // Force reset if same item
+                } else {
+                    setActiveItem(id);
+                    setSectionKey(0); // Reset for new item
+                }
+            };
+
             useEffect(() => {
                 window.location.hash = activeItem;
-                // Suggestion 4: Smooth scroll to top on section change
                 if (mainRef.current) {
                     mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
                 }
 
-                // Suggestion 3: Top Loading Bar Simulation
                 setLoadProgress(30);
                 const timer = setTimeout(() => setLoadProgress(100), 400);
                 const cleanupTimer = setTimeout(() => setLoadProgress(0), 1000);
@@ -925,8 +1109,7 @@
                     clearTimeout(timer);
                     clearTimeout(cleanupTimer);
                 };
-            }, [activeItem]);
-
+            }, [activeItem, sectionKey]);
 
             useEffect(() => {
                 const handleHashChange = () => {
@@ -956,7 +1139,7 @@
 
                     <Sidebar
                         activeItem={activeItem}
-                        setActiveItem={setActiveItem}
+                        setActiveItem={handleNavItemClick}
                         isOpen={isSidebarOpen}
                         setIsOpen={setIsSidebarOpen}
                     />
@@ -966,11 +1149,11 @@
                         className="flex-1 overflow-y-auto px-8 md:px-24 bg-soft-bg scroll-smooth selection:bg-copper/10 selection:text-copper"
                     >
                         <div className="reveal visible">
-                            {activeItem === 'intro' && <Introduction />}
-                            {activeItem === 'portfolio' && <Portfolio />}
-                            {activeItem === 'tech' && <TechArticles />}
-                            {activeItem === 'life' && <LifeSharing />}
-                            {activeItem === 'services' && <Services />}
+                            {activeItem === 'intro' && <Introduction key={`intro-${sectionKey}`} />}
+                            {activeItem === 'portfolio' && <Portfolio key={`portfolio-${sectionKey}`} />}
+                            {activeItem === 'tech' && <TechArticles key={`tech-${sectionKey}`} />}
+                            {activeItem === 'life' && <LifeSharing key={`life-${sectionKey}`} />}
+                            {activeItem === 'services' && <Services key={`services-${sectionKey}`} />}
                         </div>
 
                         {/* Static Footer inside scroll area */}

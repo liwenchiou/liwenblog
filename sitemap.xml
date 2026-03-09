@@ -2,8 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://liwenchiou.github.io/liwenblog/</loc>
-    <lastmod>2026-03-06</lastmod>
+    <lastmod>2026-03-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://liwenchiou.github.io/liwenblog/#intro</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://liwenchiou.github.io/liwenblog/#portfolio</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://liwenchiou.github.io/liwenblog/#tech</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://liwenchiou.github.io/liwenblog/#life</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://liwenchiou.github.io/liwenblog/#services</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://liwenchiou.github.io/liwenblog/liwen2026-12weekreport/index.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>

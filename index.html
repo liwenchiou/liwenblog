@@ -782,25 +782,73 @@
                 }
             }, [content, selectedPost]);
 
-            const readPost = async (filename) => {
+            const readPost = async (filename, pushToHistory = true) => {
                 setLoading(true);
                 try {
                     const res = await fetch(`./posts/${filename}`);
                     const text = await res.text();
                     setContent(marked.parse(text));
                     setSelectedPost(filename);
+
+                    if (pushToHistory) {
+                        const url = new URL(window.location);
+                        url.searchParams.set('post', filename);
+                        url.hash = 'tech';
+                        window.history.pushState({ post: filename }, '', url);
+                    }
                 } catch (e) {
                     console.error("Post load error", e);
                 }
                 setLoading(false);
             };
 
-            // SEO Enhancement: Dynamic Meta Title
+            // Deep Linking Handling
             useEffect(() => {
+                if (posts.length === 0) return;
+                const handleUrlLoad = () => {
+                    const params = new URLSearchParams(window.location.search);
+                    const postParam = params.get('post');
+                    if (postParam) {
+                        readPost(postParam, false);
+                    } else {
+                        setSelectedPost(null);
+                    }
+                };
+                // Check on initial load (only once after posts arrive)
+                handleUrlLoad();
+
+                window.addEventListener('popstate', handleUrlLoad);
+                return () => window.removeEventListener('popstate', handleUrlLoad);
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+            }, [posts]);
+
+            // SEO Enhancement: Dynamic Meta Title & JSON-LD
+            useEffect(() => {
+                const scriptId = 'dynamic-ld-json-article';
+                const existingScript = document.getElementById(scriptId);
+                if (existingScript) existingScript.remove();
+
                 if (selectedPost && posts.length > 0) {
                     const post = posts.find(p => p.filename === selectedPost);
                     if (post) {
                         document.title = `${post.title} | Liwen Chiou - Digital Architect`;
+
+                        const script = document.createElement('script');
+                        script.id = scriptId;
+                        script.type = 'application/ld+json';
+                        script.text = JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "BlogPosting",
+                            "headline": post.title,
+                            "datePublished": post.date || "",
+                            "description": post.summary || "",
+                            "author": {
+                                "@type": "Person",
+                                "name": "Liwen Chiou",
+                                "url": "https://liwenchiou.github.io/liwenblog/"
+                            }
+                        });
+                        document.head.appendChild(script);
                     }
                 } else {
                     document.title = "Liwen Chiou | Digital Architect & Full-Stack Engineer";
@@ -819,7 +867,13 @@
                 return (
                     <article className="py-12 md:py-20 reveal max-w-3xl" aria-label="Article content">
                         <button
-                            onClick={() => setSelectedPost(null)}
+                            onClick={() => {
+                                setSelectedPost(null);
+                                const url = new URL(window.location);
+                                url.searchParams.delete('post');
+                                url.hash = 'tech';
+                                window.history.pushState({}, '', url);
+                            }}
                             className="mb-12 text-[10px] font-mono font-bold uppercase tracking-widest text-copper hover:translate-x-[-4px] transition-transform flex items-center gap-2"
                         >
                             ← Back to Insights
@@ -933,25 +987,73 @@
                 }
             }, [content, selectedMoment]);
 
-            const readMoment = async (filename) => {
+            const readMoment = async (filename, pushToHistory = true) => {
                 setLoading(true);
                 try {
                     const res = await fetch(`./life/${filename}`);
                     const text = await res.text();
                     setContent(marked.parse(text));
                     setSelectedMoment(filename);
+
+                    if (pushToHistory) {
+                        const url = new URL(window.location);
+                        url.searchParams.set('moment', filename);
+                        url.hash = 'life';
+                        window.history.pushState({ moment: filename }, '', url);
+                    }
                 } catch (e) {
                     console.error("Moment load error", e);
                 }
                 setLoading(false);
             };
 
-            // SEO Enhancement: Dynamic Meta Title for Moments
+            // Deep Linking Handling for Moments
             useEffect(() => {
+                if (moments.length === 0) return;
+                const handleUrlLoad = () => {
+                    const params = new URLSearchParams(window.location.search);
+                    const momentParam = params.get('moment');
+                    if (momentParam) {
+                        readMoment(momentParam, false);
+                    } else {
+                        setSelectedMoment(null);
+                    }
+                };
+
+                handleUrlLoad();
+
+                window.addEventListener('popstate', handleUrlLoad);
+                return () => window.removeEventListener('popstate', handleUrlLoad);
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+            }, [moments]);
+
+            // SEO Enhancement: Dynamic Meta Title & JSON-LD for Moments
+            useEffect(() => {
+                const scriptId = 'dynamic-ld-json-moment';
+                const existingScript = document.getElementById(scriptId);
+                if (existingScript) existingScript.remove();
+
                 if (selectedMoment && moments.length > 0) {
                     const momentItem = moments.find(m => m.filename === selectedMoment);
                     if (momentItem) {
                         document.title = `${momentItem.title} | Liwen Chiou - Fragment`;
+
+                        const script = document.createElement('script');
+                        script.id = scriptId;
+                        script.type = 'application/ld+json';
+                        script.text = JSON.stringify({
+                            "@context": "https://schema.org",
+                            "@type": "BlogPosting",
+                            "headline": momentItem.title,
+                            "datePublished": momentItem.date || "",
+                            "description": momentItem.summary || "",
+                            "author": {
+                                "@type": "Person",
+                                "name": "Liwen Chiou",
+                                "url": "https://liwenchiou.github.io/liwenblog/"
+                            }
+                        });
+                        document.head.appendChild(script);
                     }
                 } else {
                     document.title = "Liwen Chiou | Digital Architect & Full-Stack Engineer";
@@ -966,7 +1068,13 @@
                 return (
                     <article className="py-12 md:py-20 reveal max-w-3xl" aria-label="Moment content">
                         <button
-                            onClick={() => setSelectedMoment(null)}
+                            onClick={() => {
+                                setSelectedMoment(null);
+                                const url = new URL(window.location);
+                                url.searchParams.delete('moment');
+                                url.hash = 'life';
+                                window.history.pushState({}, '', url);
+                            }}
                             className="mb-12 text-[10px] font-mono font-bold uppercase tracking-widest text-copper hover:translate-x-[-4px] transition-transform flex items-center gap-2"
                         >
                             ← Back to Fragments

@@ -1,13 +1,20 @@
 [
     {
+        "filename": "mis-daily-rant.md",
+        "title": "身為全公司的避風港：MIS 的無奈日常與邊界感",
+        "date": "2026-03-09",
+        "summary": "這是一個被剝奪補眠日的故事。探討職場上那些總是把責任推向「資訊部門」、缺乏 Ownership 的依賴心理，以及重新建立工作邊界感的重要性。",
+        "tags": [
+            "職場筆記"
+        ]
+    },
+    {
         "filename": "engineer-evaluation-psychology.md",
         "title": "工程師評價心理學：深度學習筆記",
         "date": "2026-03-09",
         "summary": "整理工程師在職場中面對「評價」時的心理機制、常見行為模式，以及如何建立健康的自我認同體系。",
         "tags": [
-            "Psychology",
-            "Career",
-            "Engineering"
+            "生活筆記"
         ]
     },
     {
@@ -16,9 +23,7 @@
         "date": "2026-03-09",
         "summary": "深入探討「冒名頂替症候群」的定義、徵兆、五種類型以及實用的解決方式，幫助你克服焦慮並建立成長型思維。",
         "tags": [
-            "Mindset",
-            "Psychology",
-            "Growth"
+            "生活筆記"
         ]
     }
 ]

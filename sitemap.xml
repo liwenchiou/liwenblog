@@ -1,34 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://liwenchiou.github.io/liwenblog/</loc>
-    <lastmod>2026-03-09</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://liwenchiou.github.io/liwenblog/#intro</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://liwenchiou.github.io/liwenblog/#portfolio</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://liwenchiou.github.io/liwenblog/#tech</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://liwenchiou.github.io/liwenblog/#life</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://liwenchiou.github.io/liwenblog/#services</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://liwenchiou.github.io/liwenblog/liwen2026-12weekreport/index.html</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/</loc>
+<lastmod>2026-03-09</lastmod>
+<changefreq>daily</changefreq>
+<priority>1.0</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#intro</loc>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#portfolio</loc>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#tech</loc>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#life</loc>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#services</loc>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/liwen2026-12weekreport/index.html</loc>
+<changefreq>weekly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#tech?post=swiper-tutorial.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#tech?post=course-notes-restful-api.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#tech?post=course-notes-js-fundamentals.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#tech?post=vite-setup-guide.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#tech?post=react-cdn-usage.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#tech?post=react-use-state.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#tech?post=react-use-effect.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#tech?post=react-use-ref.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#tech?post=react-hook-form.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#tech?post=redux-toolkit.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#tech?post=react-router.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#life?moment=mis-daily-rant.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#life?moment=engineer-evaluation-psychology.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
+<url>
+<loc>https://liwenchiou.github.io/liwenblog/#life?moment=imposter-syndrome.md</loc>
+<lastmod>2026-03-09</lastmod>
+<priority>0.7</priority>
+</url>
 </urlset>

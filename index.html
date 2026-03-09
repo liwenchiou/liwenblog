@@ -822,16 +822,26 @@
                 // eslint-disable-next-line react-hooks/exhaustive-deps
             }, [posts]);
 
-            // SEO Enhancement: Dynamic Meta Title & JSON-LD
+            // SEO Enhancement: Dynamic Meta Title, Description, Canonical & JSON-LD
             useEffect(() => {
                 const scriptId = 'dynamic-ld-json-article';
                 const existingScript = document.getElementById(scriptId);
                 if (existingScript) existingScript.remove();
 
+                const metaDesc = document.querySelector('meta[name="description"]');
+                const canonicalLink = document.querySelector('link[rel="canonical"]');
+                const url = new URL(window.location);
+
                 if (selectedPost && posts.length > 0) {
                     const post = posts.find(p => p.filename === selectedPost);
                     if (post) {
                         document.title = `${post.title} | Liwen Chiou - Digital Architect`;
+
+                        if (metaDesc) metaDesc.content = post.summary || "閱讀 Liwen Chiou 的技術文章。";
+
+                        url.searchParams.set('post', selectedPost);
+                        url.hash = 'tech';
+                        if (canonicalLink) canonicalLink.href = url.toString();
 
                         const script = document.createElement('script');
                         script.id = scriptId;
@@ -842,6 +852,7 @@
                             "headline": post.title,
                             "datePublished": post.date || "",
                             "description": post.summary || "",
+                            "url": url.toString(),
                             "author": {
                                 "@type": "Person",
                                 "name": "Liwen Chiou",
@@ -852,6 +863,10 @@
                     }
                 } else {
                     document.title = "Liwen Chiou | Digital Architect & Full-Stack Engineer";
+                    if (metaDesc) metaDesc.content = "Liwen Chiou 的個人品牌網站。數位建築師：致力於打造優雅、可擴充且具備 AI 靈魂的 Web 解決方案。專注於 React, PHP, 與 AI Agent 實戰。";
+                    url.search = '';
+                    url.hash = '';
+                    if (canonicalLink) canonicalLink.href = "https://liwenchiou.github.io/liwenblog/";
                 }
             }, [selectedPost, posts]);
 
@@ -1027,16 +1042,26 @@
                 // eslint-disable-next-line react-hooks/exhaustive-deps
             }, [moments]);
 
-            // SEO Enhancement: Dynamic Meta Title & JSON-LD for Moments
+            // SEO Enhancement: Dynamic Meta Title, Description, Canonical & JSON-LD for Moments
             useEffect(() => {
                 const scriptId = 'dynamic-ld-json-moment';
                 const existingScript = document.getElementById(scriptId);
                 if (existingScript) existingScript.remove();
 
+                const metaDesc = document.querySelector('meta[name="description"]');
+                const canonicalLink = document.querySelector('link[rel="canonical"]');
+                const url = new URL(window.location);
+
                 if (selectedMoment && moments.length > 0) {
                     const momentItem = moments.find(m => m.filename === selectedMoment);
                     if (momentItem) {
                         document.title = `${momentItem.title} | Liwen Chiou - Fragment`;
+
+                        if (metaDesc) metaDesc.content = momentItem.summary || "閱讀 Liwen Chiou 的生活分享。";
+
+                        url.searchParams.set('moment', selectedMoment);
+                        url.hash = 'life';
+                        if (canonicalLink) canonicalLink.href = url.toString();
 
                         const script = document.createElement('script');
                         script.id = scriptId;
@@ -1047,6 +1072,7 @@
                             "headline": momentItem.title,
                             "datePublished": momentItem.date || "",
                             "description": momentItem.summary || "",
+                            "url": url.toString(),
                             "author": {
                                 "@type": "Person",
                                 "name": "Liwen Chiou",
@@ -1057,6 +1083,10 @@
                     }
                 } else {
                     document.title = "Liwen Chiou | Digital Architect & Full-Stack Engineer";
+                    if (metaDesc) metaDesc.content = "Liwen Chiou 的個人品牌網站。數位建築師：致力於打造優雅、可擴充且具備 AI 靈魂的 Web 解決方案。專注於 React, PHP, 與 AI Agent 實戰。";
+                    url.search = '';
+                    url.hash = '';
+                    if (canonicalLink) canonicalLink.href = "https://liwenchiou.github.io/liwenblog/";
                 }
             }, [selectedMoment, moments]);
 

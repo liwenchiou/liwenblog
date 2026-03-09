@@ -10,16 +10,6 @@
         ]
     },
     {
-        "filename": "html5-semantic-tags.md",
-        "title": "HTML5 語意化標籤：打造 SEO 友善的網頁結構",
-        "date": "2026-03-09",
-        "summary": "深入了解 HTML5 語意化標籤的使用時機與意義，從 header, nav 到 figure, time，學習如何建立具備良好結構與 SEO 優勢的網頁。",
-        "tags": [
-            "HTML",
-            "學習筆記"
-        ]
-    },
-    {
         "filename": "course-notes-restful-api.md",
         "title": "[課程筆記] 第二堂：RESTful API 串接",
         "date": "2026-03-09",

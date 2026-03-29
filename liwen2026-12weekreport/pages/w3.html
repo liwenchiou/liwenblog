@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏆 2026-03 月度成長紀實</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0c0a09;
+            --stone-900: #1c1917;
+            --stone-800: #292524;
+            --amber-600: #d97706;
+            --text-900: #fafaf9;
+            --text-400: #a8a29e;
+            --emerald: #10b981;
+            --rose: #f43f5e;
+            --glass-border: rgba(217, 119, 6, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-900);
+            padding: 80px 24px;
+            line-height: 1.6;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Cfilter id='noiseFilter'%3%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3%3C/filter%3%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3%3C/svg%3");
+            background-blend-mode: overlay;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .m-pill {
+            display: inline-block;
+            padding: 4px 14px;
+            border: 1px solid var(--amber-600);
+            color: var(--amber-600);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .sub {
+            color: var(--text-400);
+            font-weight: 300;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        .slogan-banner {
+            font-size: 1.8rem;
+            font-weight: 600;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 0;
+            background: linear-gradient(90deg, transparent, rgba(217, 119, 6, 0.05), transparent);
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--stone-900);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 35px;
+        }
+
+        .card h2 {
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--amber-600);
+            margin-bottom: 25px;
+            border-left: 2px solid var(--amber-600);
+            padding-left: 10px;
+        }
+
+        /* SCORE & TREND */
+        .score-card {
+            grid-column: span 8;
+        }
+
+        .score-val {
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-right: 20px;
+        }
+
+        .chart {
+            height: 120px;
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            margin-top: 40px;
+        }
+
+        .bar {
+            flex: 1;
+            background: var(--amber-600);
+            position: relative;
+            border-radius: 2px 2px 0 0;
+        }
+
+        .bar::after {
+            content: attr(data-w);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--text-400);
+        }
+
+        .bar-v {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            font-family: 'Fira Code';
+        }
+
+        /* GOALS */
+        .goal-card {
+            grid-column: span 4;
+        }
+
+        .goal-item {
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon-check {
+            color: var(--emerald);
+            flex-shrink: 0;
+        }
+
+        .icon-uncheck {
+            color: var(--text-400);
+            flex-shrink: 0;
+            opacity: 0.5;
+        }
+
+        /* REVIEWS & LISTS */
+        .rev-card {
+            grid-column: span 12;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .rev-sec h3 {
+            font-size: 0.85rem;
+            color: #fff;
+            margin-bottom: 15px;
+            font-family: 'Fira Code';
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .rev-sec ul,
+        .obs-card ul {
+            list-style: none;
+        }
+
+        .rev-sec li,
+        .obs-card li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.85rem;
+            color: var(--text-400);
+            line-height: 1.7;
+        }
+
+        .rev-sec li::before {
+            content: '◈';
+            position: absolute;
+            left: 0;
+            color: var(--amber-600);
+            font-size: 0.9rem;
+        }
+
+        .obs-card li::before {
+            content: '◈';
+            position: absolute;
+            left: 0;
+            color: var(--rose);
+            font-size: 0.9rem;
+        }
+
+        .rev-sec b {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* OTHERS */
+        .obs-card {
+            grid-column: span 6;
+            background: rgba(244, 63, 94, 0.03);
+            border-color: rgba(244, 63, 94, 0.2);
+        }
+
+        .benefit-card {
+            grid-column: span 6;
+        }
+
+        .quote-card {
+            grid-column: span 4;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .q-box {
+            background: var(--stone-800);
+            padding: 18px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        .res-card {
+            grid-column: span 8;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .res-link {
+            color: var(--amber-600);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer {
+            margin-top: 100px;
+            text-align: center;
+            border-top: 1px solid var(--stone-800);
+            padding-top: 40px;
+            color: var(--text-400);
+            font-family: 'Fira Code';
+            font-size: 0.7rem;
+        }
+
+        @media (max-width: 900px) {
+
+            .score-card,
+            .goal-card,
+            .rev-card,
+            .obs-card,
+            .benefit-card,
+            .quote-card,
+            .res-card {
+                grid-column: span 12;
+            }
+
+            .rev-card {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="m-pill">STRATEGY ARCHIVE // 2026.03</div>
+            <h1>月度成長紀實</h1>
+            <p class="sub">迎接了小夕的誕生，也釐清了未來系統架構與職場的發展方向。</p>
+            <div class="slogan-banner">【 守 · 護 】</div>
+        </header>
+
+        <div class="grid">
+            <!-- SCORES -->
+            <div class="card score-card">
+                <h2>EXECUTION PERFORMANCE // 79%</h2>
+                <div style="display: flex; align-items: flex-end;">
+                    <div class="score-val">79%</div>
+                    <p style="color: var(--text-400); font-size: 0.9rem;">Habit Avg: 88.6%<br>Energy: 4.4 / 5.0</p>
+                </div>
+                <div class="chart">
+                    <div class="bar" style="height: 71%;" data-w="W09"><span class="bar-v">71%</span></div>
+                    <div class="bar" style="height: 87%;" data-w="W10"><span class="bar-v">87%</span></div>
+                    <div class="bar" style="height: 92%;" data-w="W11"><span class="bar-v">92%</span></div>
+                    <div class="bar" style="height: 84%;" data-w="W12"><span class="bar-v">84%</span></div>
+                    <div class="bar" style="height: 61%;" data-w="W13"><span class="bar-v">61%</span></div>
+                </div>
+            </div>
+
+            <!-- GOALS -->
+            <div class="card goal-card" style="padding: 35px 25px;">
+                <h2>月計畫目標達成現況</h2>
+                <div class="goal-item">
+                    <svg class="icon-uncheck" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                    </svg>
+                    培養運動習慣 - 飛輪持續。
+                </div>
+                <div class="goal-item">
+                    <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    落實十二週計畫 - 全週報紀錄。
+                </div>
+                <div class="goal-item">
+                    <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    培養專業技能 - Ironman D15。
+                </div>
+                <div class="goal-item">
+                    <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    培養閱讀習慣 - 已穩定內化。
+                </div>
+                <div class="goal-item">
+                    <svg class="icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    個人部落格 - HUB 上線。
+                </div>
+            </div>
+
+            <!-- DETAILED REVIEWS -->
+            <div class="card rev-card">
+                <div class="rev-sec">
+                    <h3>🏘️ 家庭與生命里程碑</h3>
+                    <ul>
+                        <li><b>前期整備</b>：月初購置<b>托腹帶</b>與產檢物資；去<b>台茂</b>挑選鍋具；至<b>特力屋</b>研究防貓刮地墊。</li>
+                        <li><b>突發虛驚</b>：月中經歷<b>急診檢查</b>（胎動議題），所幸虛驚一場；體認生命守護之重。</li>
+                        <li><b>新命誕生</b>：<b>03-27 小夕誕生</b> (牡羊女生)。凌晨 5 點送醫，10:36 出生。</li>
+                        <li><b>陪產守護</b>：擔任泌乳師任務並買<b>電動擠乳器</b>。小夕進食量穩定 (30ml/4hr)。</li>
+                    </ul>
+                </div>
+                <div class="rev-sec">
+                    <h3>💻 職涯發展與技術實作</h3>
+                    <ul>
+                        <li><b>職場變革</b>：確定離職心態。撰寫 <b>Git 簡易手冊</b>給總經理並清理需求。</li>
+                        <li><b>技術成果</b>：鐵人賽 D02 文章磨刀 8 小時。完成 <b>12-week v2.7 重構</b>與架構加固。</li>
+                        <li><b>系統演進</b>：討論 <b>PHP API 分離</b>與 <b>SQL 優化</b>。監控程式整合開發完成。</li>
+                    </ul>
+                </div>
+                <div class="rev-sec">
+                    <h3>🏃 運動、硬體與日常</h3>
+                    <ul>
+                        <li><b>習慣穩守</b>：低溫中穩住<b>飛輪課程</b>。將寬頻換回 <b>500MB 社區網路</b>。</li>
+                        <li><b>工作環境</b>：購買<b>螢幕支撐架</b>優化工作空間。</li>
+                        <li><b>重心偏移</b>：月底陪產守護任務優先，慢跑計畫因應現實暫停。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- OBSTACLES -->
+            <div class="card obs-card">
+                <h2>🚧 阻礙與偏差分析</h2>
+                <ul>
+                    <li><b>慢跑偏差</b>：多週受寒氣團與意志耗盡影響停擺。</li>
+                    <li><b>斷點分析</b>：W13 因應產期變動與家庭全量守護模式切換，專案文章出现斷層，預計下週復原。</li>
+                </ul>
+            </div>
+
+            <!-- BENEFITS -->
+            <div class="card benefit-card">
+                <h2>💎 月度三大獲益</h2>
+                <p style="font-size: 0.85rem; color: var(--emerald); line-height: 1.8;">1. 小夕平安出生，母女均安 (30ml/4hr)。<br>2.
+                    鐵人賽文章 D15 達陣。<br>3. 系統 V2.7 重構完成及未來技術架構釐清。</p>
+            </div>
+
+            <!-- QUOTES & LATEST -->
+            <div class="card quote-card">
+                <h2>🌟 核心金句紀錄</h2>
+                <div class="q-box">「know how 體現在業務邏輯中，這非工程師可以輕易複製。」</div>
+                <div class="q-box">「既然離職時間已定，就來做些改革吧。反正無所畏懼了。」</div>
+            </div>
+
+            <!-- RESOURCES -->
+            <div class="card res-card">
+                <div>
+                    <h2>🔗 知識資源庫</h2>
+                    <p style="font-size: 0.8rem; line-height: 2;">
+                        ◈ <a href="https://liwenchiou.github.io/liwenblog/" class="res-link">個人部落格</a><br>
+                        ◈ <a href="https://liwenchiou.github.io/QuestBoard-Remaster/" class="res-link">REMASTER HUB</a>
+                    </p>
+                </div>
+                <div>
+                    <h2>🛠️ 本月小東西</h2>
+                    <p style="font-size: 0.8rem; line-height: 2;">
+                        ◈ Synology Chat Monitor<br>
+                        ◈ 12-week-navigator v2.7
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>ANTIGRAVITY STRATEGIC ENGINE V2.7 // NO-AI RAW DATA // PREMIUM GRAPHITE GOLD</p>
+        </footer>
+    </div>
+</body>
+
+</html>
